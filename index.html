@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growmetric — Agência de Marketing Orientada por Dados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0E1D21;
+      --bg2:         #0b1719;
+      --card:        rgba(18, 46, 52, 0.6);
+      --card-solid:  #112830;
+      --steel:       #334951;
+      --grey-light:  #BABFB5;
+      --grey-dark:   #5D646A;
+      --text:        #E8EDEB;
+      --text-muted:  #7A8F8B;
+      --accent:      #19C9B7;
+      --accent-dim:  rgba(25, 201, 183, 0.11);
+      --border:      rgba(51, 73, 81, 0.45);
+      --border-glow: rgba(25, 201, 183, 0.22);
+      --radius:      18px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* dot grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, rgba(51,73,81,0.3) 1px, transparent 0);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    * { position: relative; z-index: 1; }
+
+    h1, h2, h3, h4, h5 { font-family: 'Syne', sans-serif; line-height: 1.12; }
+
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      padding: 22px 0;
+      transition: background .35s, padding .35s, border-color .35s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(11, 23, 25, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom-color: var(--border);
+      padding: 14px 0;
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .logo-link  { display: flex; align-items: center; text-decoration: none; }
+    .logo-img   { height: 26px; width: auto; display: block; }
+    .nav-links  { display: flex; align-items: center; gap: 30px; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none;
+      font-size: 14px; font-weight: 500; letter-spacing: .01em;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 10px 22px; border-radius: 9px;
+      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px;
+      text-decoration: none; cursor: pointer; border: 1px solid transparent;
+      transition: all .22s ease; white-space: nowrap;
+    }
+    .btn-primary { background: var(--accent); color: #071315; border-color: var(--accent); }
+    .btn-primary:hover { background: #22deca; box-shadow: 0 0 32px rgba(25,201,183,.3); transform: translateY(-1px); }
+    .btn-ghost   { background: transparent; color: var(--text-muted); border-color: var(--border); }
+    .btn-ghost:hover { color: var(--text); border-color: var(--steel); }
+    .btn-lg { padding: 14px 30px; font-size: 15px; border-radius: 11px; }
+    .btn-xl { padding: 16px 38px; font-size: 16px; border-radius: 12px; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      overflow: hidden;
+    }
+    /* ambient glow */
+    .hero-glow {
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 800px; height: 800px;
+      background: radial-gradient(ellipse, rgba(25,201,183,.07) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    .hero-glow-2 {
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(ellipse, rgba(18,46,52,.9) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 14px 5px 8px; border-radius: 100px;
+      background: var(--accent-dim); border: 1px solid var(--border-glow);
+      font-size: 11px; font-weight: 700; color: var(--accent);
+      letter-spacing: .06em; text-transform: uppercase; margin-bottom: 28px;
+    }
+    .badge-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.4; transform:scale(.75); }
+    }
+
+    .hero h1 {
+      font-size: clamp(38px, 5.2vw, 66px);
+      font-weight: 800; letter-spacing: -.04em; margin-bottom: 24px;
+    }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero h1 strong { font-style: normal; color: var(--text); font-weight: 800; }
+
+    .hero-sub {
+      font-size: 17px; color: var(--text-muted);
+      line-height: 1.75; margin-bottom: 40px; max-width: 480px;
+    }
+    .hero-cta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+    /* micro-trust */
+    .hero-trust {
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 28px; font-size: 13px; color: var(--text-muted);
+    }
+    .hero-trust-ava {
+      display: flex;
+    }
+    .hero-trust-ava span {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid var(--bg);
+      background: var(--steel);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      margin-right: -8px;
+    }
+
+    /* ─── DASHBOARD VISUAL ─── */
+    .hero-visual { position: relative; height: 500px; }
+
+    .glass {
+      background: var(--card);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .chart-card {
+      position: absolute;
+      inset: 0 0 92px 0;
+      padding: 24px 22px 16px;
+    }
+    .chart-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .chart-kpi-lbl {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--text-muted); margin-bottom: 4px;
+    }
+    .chart-kpi-val {
+      font-family: 'Syne', sans-serif; font-size: 28px;
+      font-weight: 800; letter-spacing: -.03em;
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 12px; font-weight: 600; color: var(--accent);
+      background: var(--accent-dim); border: 1px solid var(--border-glow);
+      padding: 4px 9px; border-radius: 6px;
+    }
+    .chart-tabs { display: flex; gap: 4px; margin-top: 8px; }
+    .ctab {
+      font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 5px;
+      color: var(--text-muted); cursor: pointer; transition: all .2s;
+    }
+    .ctab.on { background: var(--steel); color: var(--text); }
+
+    .chart-svg { width: 100%; height: 170px; }
+
+    .mini-row {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .mini-card { padding: 18px 20px; border-radius: 16px; }
+    .mini-lbl {
+      font-size: 10px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--text-muted); margin-bottom: 5px;
+    }
+    .mini-val {
+      font-family: 'Syne', sans-serif; font-size: 22px;
+      font-weight: 800; letter-spacing: -.03em;
+    }
+    .mini-sub { font-size: 11px; color: var(--accent); margin-top: 3px; font-weight: 500; }
+
+    .float-bubble {
+      position: absolute; top: 48px; right: -24px;
+      display: flex; align-items: center; gap: 11px;
+      padding: 12px 18px; border-radius: 14px;
+      background: rgba(10,22,25,0.94); border: 1px solid var(--border);
+      backdrop-filter: blur(16px); animation: floatY 3.5s ease-in-out infinite;
+      z-index: 10; white-space: nowrap;
+    }
+    @keyframes floatY { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-7px); } }
+    .float-icon {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: var(--accent-dim); border: 1px solid var(--border-glow);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); flex-shrink: 0;
+    }
+    .float-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; }
+    .float-sub   { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ─── TRUSTED STRIP ─── */
+    /* ─── BRAND TICKER ─── */
+    /* ─── BRAND TICKER ─── */
+    .brand-ticker {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      padding: 20px 0;
+    }
+    .brand-ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker 50s linear infinite;
+    }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .brand-ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      padding: 0 44px;
+      flex-shrink: 0;
+    }
+    .brand-ticker-item img {
+      height: 20px;
+      width: auto;
+      display: block;
+      filter: brightness(0) invert(1);
+      opacity: 0.2;
+    }
+    .brand-ticker-sep {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--steel);
+      opacity: 0.4;
+      flex-shrink: 0;
+    }
+
+    /* ─── SECTION SHARED ─── */
+    section { padding: 108px 0; }
+
+    .stag {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--accent); margin-bottom: 18px;
+    }
+    .stag-line { width: 22px; height: 1.5px; background: var(--accent); border-radius: 2px; flex-shrink: 0; }
+
+    .shead { margin-bottom: 60px; }
+    .stitle {
+      font-size: clamp(30px, 3.8vw, 48px); font-weight: 800;
+      letter-spacing: -.035em; margin-bottom: 16px;
+    }
+    .ssub {
+      font-size: 16px; color: var(--text-muted);
+      line-height: 1.75; max-width: 520px;
+    }
+
+    /* ─── PILLARS ─── */
+    .pillars-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .pillars-left h2 {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 800; letter-spacing: -.035em; margin-bottom: 20px;
+    }
+    .pillars-left h2 em { font-style: normal; color: var(--accent); }
+    .pillars-left p { font-size: 16px; color: var(--text-muted); line-height: 1.75; margin-bottom: 32px; }
+
+    .pillar-card {
+      background: var(--card-solid);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px 28px;
+      margin-bottom: 14px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      transition: border-color .25s, transform .25s;
+    }
+    .pillar-card:last-child { margin-bottom: 0; }
+    .pillar-card:hover { border-color: var(--border-glow); transform: translateX(4px); }
+    .pillar-icon {
+      width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+      background: var(--accent-dim); border: 1px solid var(--border-glow);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); margin-top: 2px;
+    }
+    .pillar-card h3 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 6px; }
+    .pillar-card p  { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+
+    /* ─── DIFERENCIAIS ─── */
+    .difs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .dif-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+    }
+    .dif-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-3px);
+      box-shadow: 0 20px 48px rgba(0,0,0,.25);
+    }
+    .dif-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--accent-dim); border: 1px solid var(--border-glow);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px; color: var(--accent);
+    }
+    .dif-card h3 { font-size: 17px; font-weight: 700; letter-spacing: -.015em; margin-bottom: 10px; }
+    .dif-card p  { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
+    /* ─── RESULTS METRICS ─── */
+    .metrics-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0;
+    }
+    .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .metric-item {
+      padding: 52px 28px; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .metric-item:last-child { border-right: none; }
+    .metric-num {
+      font-family: 'Syne', sans-serif; font-size: 48px; font-weight: 800;
+      letter-spacing: -.04em; line-height: 1; margin-bottom: 10px;
+    }
+    .metric-num .ac { color: var(--accent); }
+    .metric-lbl {
+      font-size: 12px; text-transform: uppercase; letter-spacing: .07em;
+      color: var(--text-muted); font-weight: 500; line-height: 1.5;
+    }
+
+    /* ─── CLIENTS ─── */
+    /* ─── MARQUEE ─── */
+    .marquee-wrap {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%);
+    }
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+    .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 56px;
+      height: 80px;
+      flex-shrink: 0;
+    }
+    .marquee-item img {
+      height: 36px;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: 0.35;
+      transition: opacity .3s;
+    }
+    .marquee-item img:hover { opacity: 0.75; }
+
+    /* ─── TEAM ─── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .team-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: border-color .25s, transform .25s;
+    }
+    .team-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-4px);
+    }
+    .team-avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 12%;
+      display: block;
+      margin-bottom: 22px;
+      border: 2px solid var(--border-glow);
+      box-shadow: 0 0 0 6px var(--accent-dim);
+      flex-shrink: 0;
+    }
+    .team-name { font-size: 22px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 6px; }
+    .team-role {
+      font-size: 13px; font-weight: 600; color: var(--accent);
+      text-transform: uppercase; letter-spacing: .07em; margin-bottom: 18px;
+    }
+    .team-bio { font-size: 14px; color: var(--text-muted); line-height: 1.75; }
+
+    /* ─── STORY ─── */
+    .story-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .story-text h2 {
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 800; letter-spacing: -.035em; margin-bottom: 20px;
+    }
+    .story-text h2 em { font-style: normal; color: var(--accent); }
+    .story-text p {
+      font-size: 15px; color: var(--text-muted); line-height: 1.85;
+      margin-bottom: 16px;
+    }
+    .story-text p strong { color: var(--text); font-weight: 600; }
+    .story-text p:last-child { margin-bottom: 0; }
+
+    .story-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .story-stat {
+      background: var(--card-solid);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 22px;
+    }
+    .story-stat-num {
+      font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
+      letter-spacing: -.03em; color: var(--accent); line-height: 1; margin-bottom: 6px;
+    }
+    .story-stat-lbl { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ─── CTA ─── */
+    .cta-section { padding: 100px 0; }
+    .cta-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: 88px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .cta-glow {
+      position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+      width: 560px; height: 280px;
+      background: radial-gradient(ellipse, rgba(25,201,183,.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-box h2 {
+      font-size: clamp(32px, 4.2vw, 54px);
+      font-weight: 800; letter-spacing: -.04em; margin-bottom: 18px;
+    }
+    .cta-box h2 em { font-style: normal; color: var(--accent); }
+    .cta-box p {
+      font-size: 17px; color: var(--text-muted); margin-bottom: 40px;
+      max-width: 460px; margin-left: auto; margin-right: auto; line-height: 1.75;
+    }
+    .cta-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+    /* ─── FORM ─── */
+    .form-section { padding: 100px 0; background: var(--bg2); border-top: 1px solid var(--border); }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .form-left h2 {
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 800; letter-spacing: -.035em; margin-bottom: 18px;
+    }
+    .form-left h2 em { font-style: normal; color: var(--accent); }
+    .form-left p { font-size: 15px; color: var(--text-muted); line-height: 1.75; margin-bottom: 36px; }
+
+    .form-trust { display: flex; flex-direction: column; gap: 14px; }
+    .form-trust-item { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-muted); }
+    .form-trust-item svg { color: var(--accent); flex-shrink: 0; }
+
+    form { display: flex; flex-direction: column; gap: 14px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label {
+      font-size: 12px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .06em; color: var(--text-muted);
+    }
+    .field input, .field select {
+      background: rgba(14,29,33,.8);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 16px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      appearance: none;
+      width: 100%;
+    }
+    .field input::placeholder { color: var(--text-muted); }
+    .field input:focus, .field select:focus {
+      border-color: var(--border-glow);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+    .field select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237A8F8B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .field select option { background: #0E1D21; }
+
+    .consent {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 13px; color: var(--text-muted); line-height: 1.6;
+      margin-top: 4px;
+    }
+    .consent input[type=checkbox] {
+      width: 16px; height: 16px; flex-shrink: 0; margin-top: 3px;
+      accent-color: var(--accent); cursor: pointer;
+    }
+
+    form .btn-primary { justify-content: center; width: 100%; padding: 15px; font-size: 15px; }
+
+    /* ─── FOOTER ─── */
+    footer { border-top: 1px solid var(--border); padding: 60px 0 36px; }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; margin-bottom: 48px;
+    }
+    .footer-desc { font-size: 14px; color: var(--text-muted); line-height: 1.75; margin-top: 16px; max-width: 240px; }
+    .footer-col h4 {
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .09em; color: var(--text); margin-bottom: 18px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { font-size: 14px; color: var(--text-muted); text-decoration: none; transition: color .2s; }
+    .footer-col a:hover { color: var(--text); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 28px; border-top: 1px solid var(--border);
+    }
+    .footer-bottom p { font-size: 13px; color: var(--text-muted); }
+    .footer-social { display: flex; gap: 16px; }
+    .footer-social a {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: var(--card-solid); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); transition: all .2s; text-decoration: none;
+    }
+    .footer-social a:hover { border-color: var(--border-glow); color: var(--accent); }
+
+    /* ─── REVEAL ANIMATIONS ─── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .08s; }
+    .d2 { transition-delay: .16s; }
+    .d3 { transition-delay: .24s; }
+    .d4 { transition-delay: .32s; }
+    .d5 { transition-delay: .40s; }
+    .d6 { transition-delay: .48s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 980px) {
+      .hero-grid     { grid-template-columns: 1fr; }
+      .hero-visual   { display: none; }
+      .pillars-grid  { grid-template-columns: 1fr; gap: 36px; }
+      .difs-grid     { grid-template-columns: repeat(2, 1fr); }
+      .metrics-grid  { grid-template-columns: repeat(2, 1fr); }
+      .metrics-grid .metric-item:nth-child(2) { border-right: none; }
+      .team-grid     { grid-template-columns: 1fr; max-width: 440px; }
+      .story-grid    { grid-template-columns: 1fr; gap: 40px; }
+      .form-grid     { grid-template-columns: 1fr; gap: 40px; }
+      .footer-grid   { grid-template-columns: 1fr 1fr; }
+      .nav-links     { display: none; }
+      .cta-box       { padding: 56px 28px; }
+    }
+    @media (max-width: 640px) {
+      .difs-grid     { grid-template-columns: 1fr; }
+      .form-row      { grid-template-columns: 1fr; }
+      .footer-grid   { grid-template-columns: 1fr; }
+      .metrics-grid  { grid-template-columns: 1fr; }
+      .metrics-grid .metric-item { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="logo-link">
+        <img src="brand_assets/logo.png" alt="Growmetric" class="logo-img">
+      </a>
+      <ul class="nav-links">
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#diferenciais">Diferenciais</a></li>
+        <li><a href="#sobre">Sobre nós</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <a href="#contato" class="btn btn-primary">Agendar consultoria</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="container">
+    <div class="hero-grid">
+
+      <!-- Copy -->
+      <div>
+        <div class="badge"><span class="badge-dot"></span>Agência de Marketing Orientada por Dados</div>
+        <h1><em>Marketing</em> para quem já passou da fase dos testes.</h1>
+        <p class="hero-sub">Ideal para empresas prontas para investir com inteligência e visão de longo prazo. Transformamos dados em decisões que geram crescimento real e previsível.</p>
+        <div class="hero-cta">
+          <a href="#contato" class="btn btn-primary btn-lg">Agendar consultoria gratuita →</a>
+          <a href="#servicos" class="btn btn-ghost btn-lg">Ver como funciona</a>
+        </div>
+        <div class="hero-trust">
+          <div class="hero-trust-ava">
+            <span>AB</span><span>FC</span><span>KG</span>
+          </div>
+          <span>+50 empresas já cresceram com a Growmetric</span>
+        </div>
+      </div>
+
+      <!-- Dashboard visual -->
+      <div class="hero-visual">
+        <div class="glass chart-card">
+          <div class="chart-top">
+            <div>
+              <div class="chart-kpi-lbl">Receita do Cliente</div>
+              <div class="chart-kpi-val">R$ 1.248.520</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+              <span class="pill">↑ 34,8%</span>
+              <div class="chart-tabs">
+                <span class="ctab">7D</span>
+                <span class="ctab on">1M</span>
+                <span class="ctab">1A</span>
+              </div>
+            </div>
+          </div>
+          <svg class="chart-svg" viewBox="0 0 520 170" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="aG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#19C9B7" stop-opacity=".28"/>
+                <stop offset="100%" stop-color="#19C9B7" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="lG" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#334951"/>
+                <stop offset="55%" stop-color="#19C9B7"/>
+                <stop offset="100%" stop-color="#19C9B7"/>
+              </linearGradient>
+              <clipPath id="rc">
+                <rect id="clipR" x="0" y="-10" width="0" height="190"/>
+              </clipPath>
+            </defs>
+            <line x1="0" y1="34"  x2="520" y2="34"  stroke="rgba(51,73,81,.25)" stroke-width="1"/>
+            <line x1="0" y1="82"  x2="520" y2="82"  stroke="rgba(51,73,81,.25)" stroke-width="1"/>
+            <line x1="0" y1="130" x2="520" y2="130" stroke="rgba(51,73,81,.25)" stroke-width="1"/>
+            <text x="4" y="32"  font-size="9" fill="rgba(122,143,139,.6)" font-family="DM Sans,sans-serif">R$1.5M</text>
+            <text x="4" y="80"  font-size="9" fill="rgba(122,143,139,.6)" font-family="DM Sans,sans-serif">R$1M</text>
+            <text x="4" y="128" font-size="9" fill="rgba(122,143,139,.6)" font-family="DM Sans,sans-serif">R$500k</text>
+            <g clip-path="url(#rc)">
+              <path d="M28 145 C70 134 108 118 150 100 C192 82 224 110 268 78 C312 46 348 60 390 34 C420 14 458 24 492 8 L492 160 L28 160 Z" fill="url(#aG)"/>
+              <path d="M28 145 C70 134 108 118 150 100 C192 82 224 110 268 78 C312 46 348 60 390 34 C420 14 458 24 492 8"
+                    fill="none" stroke="url(#lG)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <circle cx="150" cy="100" r="4" fill="#19C9B7" class="chart-dot" style="opacity:0"/>
+            <circle cx="268" cy="78"  r="4" fill="#19C9B7" class="chart-dot" style="opacity:0"/>
+            <circle cx="390" cy="34"  r="4" fill="#19C9B7" class="chart-dot" style="opacity:0"/>
+            <circle cx="492" cy="8"   r="5" fill="#19C9B7" class="chart-dot" style="opacity:0">
+              <animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <text x="28"  y="166" font-size="9" fill="rgba(122,143,139,.6)" font-family="DM Sans,sans-serif">Jan</text>
+            <text x="112" y="166" font-size="9" fill="rgba(122,143,139,.6)" font-family="DM Sans,sans-serif">Fev</text>
+            <text x="200" y="166" font-size="9" fill="rgba(122,143,139,.6)" font-family="DM Sans,sans-serif">Mar</text>
+            <text x="288" y="166" font-size="9" fill="rgba(122,143,139,.6)" font-family="DM Sans,sans-serif">Abr</text>
+            <text x="372" y="166" font-size="9" fill="rgba(122,143,139,.6)" font-family="DM Sans,sans-serif">Mai</text>
+            <text x="454" y="166" font-size="9" fill="rgba(122,143,139,.6)" font-family="DM Sans,sans-serif">Jun</text>
+          </svg>
+        </div>
+        <div class="mini-row">
+          <div class="glass mini-card">
+            <div class="mini-lbl">Conversões</div>
+            <div class="mini-val">8.240</div>
+            <div class="mini-sub">↑ 22% este mês</div>
+          </div>
+          <div class="glass mini-card">
+            <div class="mini-lbl">ROAS Médio</div>
+            <div class="mini-val">4,7×</div>
+            <div class="mini-sub">↑ 1,2× vs anterior</div>
+          </div>
+        </div>
+        <div class="float-bubble">
+          <div class="float-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+            </svg>
+          </div>
+          <div>
+            <div class="float-title">CAC reduzido em 40%</div>
+            <div class="float-sub">vs. mesmo período</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CLIENTES STRIP ══════════════ -->
+<div class="brand-ticker">
+  <div class="brand-ticker-track">
+    <!-- set 1 -->
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <!-- set 2 (duplicate for seamless loop) -->
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+    <div class="brand-ticker-item"><img src="brand_assets/growmetric/growmetric_logo.png" alt="Growmetric"><span class="brand-ticker-sep"></span></div>
+  </div>
+</div>
+
+<!-- ══════════════ PILLARS / SERVIÇOS ══════════════ -->
+<section id="servicos" class="pillars-section">
+  <div class="container">
+    <div class="pillars-grid">
+
+      <div class="reveal">
+        <div class="stag"><span class="stag-line"></span>O Mecanismo Growmetric</div>
+        <h2>Pare de comprar cliques e construa um <em>sistema de vendas previsível.</em></h2>
+        <p>Conheça o método único da Growmetric para acelerar resultados através da inteligência em dados. Uma solução completa, integrada nos 3 pilares que sustentam o crescimento de longo prazo.</p>
+        <a href="#contato" class="btn btn-primary">Quero conhecer o método →</a>
+      </div>
+
+      <div class="reveal d1">
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Aquisição Inteligente</h3>
+            <p>Campanhas otimizadas com dados para atrair clientes altamente qualificados. Mais conversões, menos desperdício de verba.</p>
+          </div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Retenção Estratégica</h3>
+            <p>Aumente a recorrência e o LTV dos seus clientes. Estratégias de relacionamento que transformam compras únicas em receita previsível.</p>
+          </div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Otimização de CAC</h3>
+            <p>Escale sem desperdiçar recursos. Reduzimos o custo de aquisição enquanto aumentamos o volume e qualidade dos leads.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ MÉTRICAS ══════════════ -->
+<div class="metrics-section">
+  <div class="container">
+    <div class="metrics-grid">
+      <div class="metric-item">
+        <div class="metric-num"><span class="counter" data-target="5">0</span><span class="ac">+</span></div>
+        <div class="metric-lbl">Anos de<br>experiência</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num"><span class="counter" data-target="50">0</span><span class="ac">+</span></div>
+        <div class="metric-lbl">Empresas<br>atendidas</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num"><span class="counter" data-target="40">0</span><span class="ac">%</span></div>
+        <div class="metric-lbl">Redução média<br>de CAC</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num"><span class="counter" data-target="4.7" data-decimal="1">0</span><span class="ac">×</span></div>
+        <div class="metric-lbl">ROAS médio<br>dos clientes</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ DIFERENCIAIS ══════════════ -->
+<section id="diferenciais">
+  <div class="container">
+    <div class="shead reveal" style="text-align:center">
+      <div class="stag" style="justify-content:center"><span class="stag-line"></span>Diferenciais<span class="stag-line"></span></div>
+      <h2 class="stitle">Por que nossos clientes escolheram<br>a <span style="color:var(--accent)">Growmetric</span>?</h2>
+    </div>
+    <div class="difs-grid">
+
+      <div class="dif-card reveal d1">
+        <div class="dif-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </div>
+        <h3>Visão 360° do negócio</h3>
+        <p>Não olhamos só para o tráfego. Analisamos toda a operação para entregar estratégias que realmente movem o negócio.</p>
+      </div>
+
+      <div class="dif-card reveal d2">
+        <div class="dif-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <h3>Foco em resultados reais</h3>
+        <p>Não trabalhamos com métricas de vaidade. Cada decisão é orientada por dados que impactam diretamente a receita.</p>
+      </div>
+
+      <div class="dif-card reveal d3">
+        <div class="dif-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h3>Clareza em mídia paga</h3>
+        <p>Entregamos total transparência sobre onde cada centavo do seu investimento está sendo aplicado e qual retorno está gerando.</p>
+      </div>
+
+      <div class="dif-card reveal d1">
+        <div class="dif-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </div>
+        <h3>Dados como pilar principal</h3>
+        <p>Não trabalhamos com achismos. Cada estratégia é construída sobre análise sólida de dados reais do seu negócio.</p>
+      </div>
+
+      <div class="dif-card reveal d2">
+        <div class="dif-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h3>Contato humanizado e direto</h3>
+        <p>Você fala diretamente com os sócios e responsáveis pelo seu projeto. Sem intermediários, sem burocracia.</p>
+      </div>
+
+      <div class="dif-card reveal d3">
+        <div class="dif-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <h3>5 anos de experiência</h3>
+        <p>Histórico real em grandes projetos e mercados competitivos. Experiência que gera estratégias mais seguras e eficazes.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ ALGUNS CLIENTES ══════════════ -->
+<section style="padding: 80px 0; border-top: 1px solid var(--border); background: var(--bg2);">
+  <div class="container">
+    <div class="shead reveal" style="text-align:center; margin-bottom: 44px;">
+      <div class="stag" style="justify-content:center"><span class="stag-line"></span>Clientes<span class="stag-line"></span></div>
+      <h2 class="stitle">Alguns dos nossos clientes</h2>
+    </div>
+  </div>
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <!-- original set -->
+      <div class="marquee-item"><img src="brand_assets/logos/abela_logo.png" alt="Abela"></div>
+      <div class="marquee-item"><img src="brand_assets/logos/cafe.png" alt="Café"></div>
+      <div class="marquee-item"><img src="brand_assets/logos/ff.png" alt="FF"></div>
+      <div class="marquee-item"><img src="brand_assets/logos/king.png" alt="King"></div>
+      <div class="marquee-item"><img src="brand_assets/logos/poligun.png" alt="Poligun"></div>
+      <div class="marquee-item"><img src="brand_assets/logos/yahogany.png" alt="Yahogany"></div>
+      <!-- duplicated for seamless loop -->
+      <div class="marquee-item"><img src="brand_assets/logos/abela_logo.png" alt="Abela"></div>
+      <div class="marquee-item"><img src="brand_assets/logos/cafe.png" alt="Café"></div>
+      <div class="marquee-item"><img src="brand_assets/logos/ff.png" alt="FF"></div>
+      <div class="marquee-item"><img src="brand_assets/logos/king.png" alt="King"></div>
+      <div class="marquee-item"><img src="brand_assets/logos/poligun.png" alt="Poligun"></div>
+      <div class="marquee-item"><img src="brand_assets/logos/yahogany.png" alt="Yahogany"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ SÓCIOS ══════════════ -->
+<section id="sobre">
+  <div class="container">
+    <div class="shead reveal" style="text-align:center">
+      <div class="stag" style="justify-content:center"><span class="stag-line"></span>Time<span class="stag-line"></span></div>
+      <h2 class="stitle">Nossos Sócios</h2>
+      <p class="ssub" style="margin: 0 auto;">Você fala diretamente com quem toma as decisões. Sem camadas, sem ruído.</p>
+    </div>
+    <div class="team-grid">
+
+      <div class="team-card reveal d1">
+        <img src="brand_assets/bruno_imagem.png" alt="Bruno Aksenen" class="team-avatar">
+        <div class="team-name">Bruno Aksenen</div>
+        <div class="team-role">Founder &amp; Head de Mídia Paga</div>
+        <p class="team-bio">Estrategista da Growmetric, vindo da engenharia. Background totalmente orientado por lógica, análise e tomada de decisão baseada em dados. Ao entrar no mercado de marketing e mídia paga, percebeu que o verdadeiro desafio sempre foi entender o que estava por trás dos números.</p>
+      </div>
+
+      <div class="team-card reveal d2">
+        <img src="brand_assets/felipe_imagem.png" alt="Felipe Carneiro" class="team-avatar">
+        <div class="team-name">Felipe Carneiro</div>
+        <div class="team-role">Co-Founder &amp; Head de Projetos</div>
+        <p class="team-bio">Responsável pela gestão e execução dos projetos, garantindo que cada cliente receba atenção personalizada e resultados alinhados aos objetivos do negócio. Especialista em transformar estratégias em processos escaláveis.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ STORY ══════════════ -->
+<section class="story-section">
+  <div class="container">
+    <div class="story-grid">
+
+      <div class="story-text reveal">
+        <div class="stag"><span class="stag-line"></span>Nossa história</div>
+        <h2>Uma <em>inquietação</em> que virou método.</h2>
+        <p>A Growmetric nasceu de uma inquietação muito clara: ver empresas investindo cada vez mais em marketing, mas sem clareza real sobre o que estavam construindo. <strong>Muito esforço. Muitos anúncios. Muitos leads.</strong> E ainda assim, pouca certeza de que tudo aquilo estava realmente levando a algum lugar.</p>
+        <p>Bruno, estrategista da Growmetric, veio da engenharia — um background totalmente orientado por lógica, análise e tomada de decisão baseada em dados. Ao entrar no mercado de Marketing e Mídia Paga, ele percebeu algo essencial: <strong>o problema nunca foi gerar leads.</strong></p>
+        <p><strong>O verdadeiro desafio sempre foi entender o que estava por trás deles.</strong></p>
+      </div>
+
+      <div class="story-stats reveal d1">
+        <div class="story-stat">
+          <div class="story-stat-num">5+</div>
+          <div class="story-stat-lbl">Anos no mercado de marketing digital</div>
+        </div>
+        <div class="story-stat">
+          <div class="story-stat-num">50+</div>
+          <div class="story-stat-lbl">Empresas transformadas com dados</div>
+        </div>
+        <div class="story-stat">
+          <div class="story-stat-num">R$10M+</div>
+          <div class="story-stat-lbl">Gerenciados em investimento de mídia</div>
+        </div>
+        <div class="story-stat">
+          <div class="story-stat-num">3×</div>
+          <div class="story-stat-lbl">Crescimento médio em 6 meses</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CTA ══════════════ -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box reveal">
+      <div class="cta-glow"></div>
+      <div class="stag" style="justify-content:center; margin-bottom:20px"><span class="stag-line"></span>Dê o próximo passo<span class="stag-line"></span></div>
+      <h2>Seu crescimento <em>começa aqui.</em></h2>
+      <p>Pare de investir no escuro. Agende sua consultoria gratuita e descubra como transformar dados em crescimento previsível para o seu negócio.</p>
+      <div class="cta-actions">
+        <a href="#contato" class="btn btn-primary btn-xl">Agendar consultoria gratuita →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FORMULÁRIO ══════════════ -->
+<section id="contato" class="form-section">
+  <div class="container">
+    <div class="form-grid">
+
+      <div class="reveal">
+        <div class="stag"><span class="stag-line"></span>Fale conosco</div>
+        <h2>Entre em contato com a nossa <em>equipe</em></h2>
+        <p>Preencha o formulário e um dos nossos especialistas entrará em contato para entender o seu negócio e apresentar as melhores estratégias para o seu crescimento.</p>
+        <div class="form-trust">
+          <div class="form-trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Consultoria inicial gratuita e sem compromisso
+          </div>
+          <div class="form-trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Resposta em até 24 horas úteis
+          </div>
+          <div class="form-trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Você fala diretamente com os sócios
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal d1">
+        <form>
+          <div class="form-row">
+            <div class="field">
+              <label for="nome">Nome completo</label>
+              <input type="text" id="nome" placeholder="Seu nome">
+            </div>
+            <div class="field">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" placeholder="seu@email.com">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="tel">Telefone / WhatsApp</label>
+              <input type="tel" id="tel" placeholder="(11) 99999-9999">
+            </div>
+            <div class="field">
+              <label for="empresa">Nome da empresa</label>
+              <input type="text" id="empresa" placeholder="Sua empresa">
+            </div>
+          </div>
+          <div class="field">
+            <label for="faturamento">Faturamento anual</label>
+            <select id="faturamento">
+              <option value="" disabled selected>Selecione uma faixa</option>
+              <option>Até R$ 500 mil</option>
+              <option>R$ 500 mil a R$ 2 milhões</option>
+              <option>R$ 2 milhões a R$ 10 milhões</option>
+              <option>Acima de R$ 10 milhões</option>
+            </select>
+          </div>
+          <div class="consent">
+            <input type="checkbox" id="consent">
+            <label for="consent">Concordo em fornecer meus dados para receber conteúdos e ofertas por e-mail ou outros meios.</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar e agendar consultoria →</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="logo-link">
+          <img src="brand_assets/logo.png" alt="Growmetric" class="logo-img">
+        </a>
+        <p class="footer-desc">Agência de marketing orientada por dados. Transformamos investimentos em crescimento previsível.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Serviços</h4>
+        <ul>
+          <li><a href="#">Mídia Paga</a></li>
+          <li><a href="#">Gestão de Tráfego</a></li>
+          <li><a href="#">Análise de Dados</a></li>
+          <li><a href="#">Estratégia Digital</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#">Sobre nós</a></li>
+          <li><a href="#">Casos de sucesso</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Termos de Uso</a></li>
+          <li><a href="#">LGPD</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Growmetric — Todos os direitos reservados.</p>
+      <div class="footer-social">
+        <a href="#" title="Instagram">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+        </a>
+        <a href="#" title="LinkedIn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Navbar
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 48), { passive: true });
+
+  // Chart animation
+  const clipR = document.getElementById('clipR');
+  const dots  = document.querySelectorAll('.chart-dot');
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      let s = null;
+      const D = 1800;
+      (function frame(ts) {
+        if (!s) s = ts;
+        const raw  = Math.min((ts - s) / D, 1);
+        const prog = ease(raw);
+        clipR.setAttribute('width', prog * 520);
+        dots.forEach((d, i) => {
+          const thr = .35 + i * .17;
+          d.style.opacity = Math.max(0, Math.min((raw - thr) / .14, 1));
+        });
+        if (raw < 1) requestAnimationFrame(frame);
+      })(performance.now());
+    }, 300);
+  });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Counters
+  const cObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el  = e.target;
+      const tgt = parseFloat(el.dataset.target);
+      const dec = parseInt(el.dataset.decimal || 0);
+      let s = null;
+      (function frame(ts) {
+        if (!s) s = ts;
+        const p = Math.min((ts - s) / 1800, 1);
+        const v = ease(p) * tgt;
+        el.textContent = dec ? v.toFixed(dec) : Math.floor(v);
+        if (p < 1) requestAnimationFrame(frame);
+        else el.textContent = dec ? tgt.toFixed(dec) : tgt;
+      })(performance.now());
+      cObs.unobserve(el);
+    });
+  }, { threshold: .5 });
+  document.querySelectorAll('.counter').forEach(c => cObs.observe(c));
+
+  // Form submit
+  document.querySelector('form').addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.textContent = 'Mensagem enviada! ✓';
+    btn.style.background = '#134e4a';
+    btn.disabled = true;
+  });
+</script>
+
+</body>
+</html>
