@@ -318,37 +318,41 @@
     .pillars-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 64px;
+      gap: 80px;
       align-items: center;
     }
     .pillars-left h2 {
       font-size: clamp(28px, 3.5vw, 44px);
-      font-weight: 800; letter-spacing: -.035em; margin-bottom: 20px;
+      font-weight: 800; letter-spacing: -.035em;
+      line-height: 1.35; margin-bottom: 32px;
     }
     .pillars-left h2 em { font-style: normal; color: var(--accent); }
-    .pillars-left p { font-size: 16px; color: var(--text-muted); line-height: 1.75; margin-bottom: 32px; }
+    .pillars-left p {
+      font-size: 16px; color: var(--text-muted);
+      line-height: 2.0; margin-bottom: 52px;
+    }
 
     .pillar-card {
       background: var(--card-solid);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 26px 28px;
-      margin-bottom: 14px;
+      padding: 28px 32px;
+      margin-bottom: 16px;
       display: flex;
-      gap: 18px;
+      gap: 22px;
       align-items: flex-start;
       transition: border-color .25s, transform .25s;
     }
     .pillar-card:last-child { margin-bottom: 0; }
     .pillar-card:hover { border-color: var(--border-glow); transform: translateX(4px); }
     .pillar-icon {
-      width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+      width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
       background: var(--accent-dim); border: 1px solid var(--border-glow);
       display: flex; align-items: center; justify-content: center;
       color: var(--accent); margin-top: 2px;
     }
-    .pillar-card h3 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 6px; }
-    .pillar-card p  { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+    .pillar-card h3 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 8px; }
+    .pillar-card p  { font-size: 14px; color: var(--text-muted); line-height: 1.75; }
 
     /* ─── DIFERENCIAIS ─── */
     .difs-grid {
@@ -600,6 +604,21 @@
     }
 
     form .btn-primary { justify-content: center; width: 100%; padding: 15px; font-size: 15px; }
+
+    .field-error {
+      font-size: 12px; color: #f87171; min-height: 16px; display: block;
+    }
+    .input-error {
+      border-color: #f87171 !important;
+      box-shadow: 0 0 0 3px rgba(248,113,113,.15) !important;
+    }
+    .form-feedback {
+      font-size: 14px; padding: 12px 16px; border-radius: 10px;
+      display: none;
+    }
+    .form-feedback:not(:empty) { display: block; }
+    .form-feedback--ok  { background: rgba(25,201,183,.12); color: var(--accent); border: 1px solid var(--border-glow); }
+    .form-feedback--err { background: rgba(248,113,113,.1); color: #f87171; border: 1px solid rgba(248,113,113,.3); }
 
     /* ─── FOOTER ─── */
     footer { border-top: 1px solid var(--border); padding: 60px 0 36px; }
@@ -1161,25 +1180,29 @@
       </div>
 
       <div class="reveal d1">
-        <form>
+        <form id="lead-form" novalidate>
           <div class="form-row">
             <div class="field">
               <label for="nome">Nome completo</label>
-              <input type="text" id="nome" placeholder="Seu nome">
+              <input type="text" id="nome" placeholder="Seu nome" autocomplete="name">
+              <span class="field-error" id="err-nome"></span>
             </div>
             <div class="field">
               <label for="email">E-mail</label>
-              <input type="email" id="email" placeholder="seu@email.com">
+              <input type="email" id="email" placeholder="seu@email.com" autocomplete="email">
+              <span class="field-error" id="err-email"></span>
             </div>
           </div>
           <div class="form-row">
             <div class="field">
               <label for="tel">Telefone / WhatsApp</label>
-              <input type="tel" id="tel" placeholder="(11) 99999-9999">
+              <input type="tel" id="tel" placeholder="(11) 99999-9999" autocomplete="tel" maxlength="15">
+              <span class="field-error" id="err-tel"></span>
             </div>
             <div class="field">
               <label for="empresa">Nome da empresa</label>
-              <input type="text" id="empresa" placeholder="Sua empresa">
+              <input type="text" id="empresa" placeholder="Sua empresa" autocomplete="organization">
+              <span class="field-error" id="err-empresa"></span>
             </div>
           </div>
           <div class="field">
@@ -1191,12 +1214,15 @@
               <option>R$ 2 milhões a R$ 10 milhões</option>
               <option>Acima de R$ 10 milhões</option>
             </select>
+            <span class="field-error" id="err-faturamento"></span>
           </div>
           <div class="consent">
             <input type="checkbox" id="consent">
             <label for="consent">Concordo em fornecer meus dados para receber conteúdos e ofertas por e-mail ou outros meios.</label>
           </div>
-          <button type="submit" class="btn btn-primary">Enviar e agendar consultoria →</button>
+          <span class="field-error" id="err-consent"></span>
+          <div id="form-feedback" class="form-feedback" aria-live="polite"></div>
+          <button type="submit" class="btn btn-primary" id="submit-btn">Enviar e agendar consultoria →</button>
         </form>
       </div>
 
@@ -1314,13 +1340,109 @@
   }, { threshold: .5 });
   document.querySelectorAll('.counter').forEach(c => cObs.observe(c));
 
+  // Phone mask
+  document.getElementById('tel').addEventListener('input', function () {
+    let v = this.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 10) {
+      v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+    } else if (v.length > 6) {
+      v = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3');
+    } else if (v.length > 2) {
+      v = v.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+    } else if (v.length > 0) {
+      v = v.replace(/^(\d{0,2})$/, '($1');
+    }
+    this.value = v;
+  });
+
+  // Validation helpers
+  function setError(fieldId, msg) {
+    const el = document.getElementById('err-' + fieldId);
+    const input = document.getElementById(fieldId === 'tel' ? 'tel' : fieldId);
+    if (el) el.textContent = msg;
+    if (input) input.classList.toggle('input-error', !!msg);
+  }
+
+  function clearErrors() {
+    ['nome','email','tel','empresa','faturamento','consent'].forEach(id => setError(id, ''));
+    const fb = document.getElementById('form-feedback');
+    fb.textContent = '';
+    fb.className = 'form-feedback';
+  }
+
+  function validateClient() {
+    let valid = true;
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const tel = document.getElementById('tel').value.replace(/\D/g, '');
+    const empresa = document.getElementById('empresa').value.trim();
+    const faturamento = document.getElementById('faturamento').value;
+    const consent = document.getElementById('consent').checked;
+
+    if (nome.length < 2) { setError('nome', 'Nome deve ter pelo menos 2 caracteres.'); valid = false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('email', 'E-mail inválido.'); valid = false; }
+    if (tel.length < 10 || tel.length > 11) { setError('tel', 'Telefone inválido.'); valid = false; }
+    if (!empresa) { setError('empresa', 'Nome da empresa obrigatório.'); valid = false; }
+    if (!faturamento) { setError('faturamento', 'Selecione uma faixa de faturamento.'); valid = false; }
+    if (!consent) { setError('consent', 'Você precisa aceitar para continuar.'); valid = false; }
+
+    return valid;
+  }
+
   // Form submit
-  document.querySelector('form').addEventListener('submit', e => {
+  document.getElementById('lead-form').addEventListener('submit', async function (e) {
     e.preventDefault();
-    const btn = e.target.querySelector('button[type=submit]');
-    btn.textContent = 'Mensagem enviada! ✓';
-    btn.style.background = '#134e4a';
+    clearErrors();
+
+    if (!validateClient()) return;
+
+    const btn = document.getElementById('submit-btn');
+    const fb  = document.getElementById('form-feedback');
     btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome:        document.getElementById('nome').value.trim(),
+          email:       document.getElementById('email').value.trim(),
+          telefone:    document.getElementById('tel').value.trim(),
+          empresa:     document.getElementById('empresa').value.trim(),
+          faturamento: document.getElementById('faturamento').value,
+          consent:     document.getElementById('consent').checked,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        fb.textContent = 'Mensagem enviada! Entraremos em contato em breve.';
+        fb.className = 'form-feedback form-feedback--ok';
+        btn.textContent = 'Enviado com sucesso ✓';
+        btn.style.background = '#134e4a';
+        e.target.reset();
+      } else if (res.status === 400 && data.errors) {
+        // Server returned field-level errors
+        Object.entries(data.errors).forEach(([k, msg]) => {
+          const key = k === 'telefone' ? 'tel' : k;
+          setError(key, msg);
+        });
+        btn.disabled = false;
+        btn.textContent = 'Enviar e agendar consultoria →';
+      } else {
+        fb.textContent = data.error || 'Erro ao enviar. Tente novamente.';
+        fb.className = 'form-feedback form-feedback--err';
+        btn.disabled = false;
+        btn.textContent = 'Enviar e agendar consultoria →';
+      }
+    } catch (_) {
+      fb.textContent = 'Sem conexão. Verifique sua internet e tente novamente.';
+      fb.className = 'form-feedback form-feedback--err';
+      btn.disabled = false;
+      btn.textContent = 'Enviar e agendar consultoria →';
+    }
   });
 </script>
 

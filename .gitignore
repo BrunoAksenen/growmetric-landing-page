@@ -1,2 +1,4 @@
 CLAUDE.md
 .tmp/
+.env
+node_modules/
