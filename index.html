@@ -510,13 +510,19 @@
       background: var(--card-solid);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 24px 22px;
+      padding: 28px 26px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.25);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .story-stat:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0,255,200,.08), 0 4px 16px rgba(0,0,0,.3);
     }
     .story-stat-num {
-      font-family: 'Outfit', sans-serif; font-size: 36px; font-weight: 800;
-      letter-spacing: -.03em; color: var(--accent); line-height: 1; margin-bottom: 6px;
+      font-family: 'Outfit', sans-serif; font-size: 42px; font-weight: 800;
+      letter-spacing: -.03em; color: var(--accent); line-height: 1; margin-bottom: 8px;
     }
-    .story-stat-lbl { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .story-stat-lbl { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
 
     /* ─── CTA ─── */
     .cta-section { padding: 100px 0; }
@@ -1075,34 +1081,6 @@
   </div>
 </section>
 
-<!-- ══════════════ SÓCIOS ══════════════ -->
-<section id="sobre">
-  <div class="container">
-    <div class="shead reveal" style="text-align:center">
-      <div class="stag" style="justify-content:center"><span class="stag-line"></span>Time<span class="stag-line"></span></div>
-      <h2 class="stitle">Nossos Sócios</h2>
-      <p class="ssub" style="margin: 0 auto;">Você fala diretamente com quem toma as decisões. Sem camadas, sem ruído.</p>
-    </div>
-    <div class="team-grid">
-
-      <div class="team-card reveal d1">
-        <img src="brand_assets/bruno_imagem.png" alt="Bruno Aksenen" class="team-avatar">
-        <div class="team-name">Bruno Aksenen</div>
-        <div class="team-role">Founder &amp; Head de Mídia Paga</div>
-        <p class="team-bio">Estrategista da Growmetric, vindo da engenharia. Background totalmente orientado por lógica, análise e tomada de decisão baseada em dados. Ao entrar no mercado de marketing e mídia paga, percebeu que o verdadeiro desafio sempre foi entender o que estava por trás dos números.</p>
-      </div>
-
-      <div class="team-card reveal d2">
-        <img src="brand_assets/felipe_imagem.png" alt="Felipe Carneiro" class="team-avatar">
-        <div class="team-name">Felipe Carneiro</div>
-        <div class="team-role">Co-Founder &amp; Head de Projetos</div>
-        <p class="team-bio">Responsável pela gestão e execução dos projetos, garantindo que cada cliente receba atenção personalizada e resultados alinhados aos objetivos do negócio. Especialista em transformar estratégias em processos escaláveis.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 <!-- ══════════════ STORY ══════════════ -->
 <section class="story-section">
   <div class="container">
@@ -1133,6 +1111,34 @@
           <div class="story-stat-num">3×</div>
           <div class="story-stat-lbl">Crescimento médio em 6 meses</div>
         </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ SÓCIOS ══════════════ -->
+<section id="sobre">
+  <div class="container">
+    <div class="shead reveal" style="text-align:center">
+      <div class="stag" style="justify-content:center"><span class="stag-line"></span>Time<span class="stag-line"></span></div>
+      <h2 class="stitle">Nossos Sócios</h2>
+      <p class="ssub" style="margin: 0 auto;">Você fala diretamente com quem toma as decisões. Sem camadas, sem ruído.</p>
+    </div>
+    <div class="team-grid">
+
+      <div class="team-card reveal d1">
+        <img src="brand_assets/bruno_imagem.png" alt="Bruno Aksenen" class="team-avatar">
+        <div class="team-name">Bruno Aksenen</div>
+        <div class="team-role">Founder &amp; Head de Mídia Paga</div>
+        <p class="team-bio">Estrategista da Growmetric, vindo da engenharia. Background totalmente orientado por lógica, análise e tomada de decisão baseada em dados. Ao entrar no mercado de marketing e mídia paga, percebeu que o verdadeiro desafio sempre foi entender o que estava por trás dos números.</p>
+      </div>
+
+      <div class="team-card reveal d2">
+        <img src="brand_assets/felipe_imagem.png" alt="Felipe Carneiro" class="team-avatar">
+        <div class="team-name">Felipe Carneiro</div>
+        <div class="team-role">Co-Founder &amp; Head de Projetos</div>
+        <p class="team-bio">Responsável pela gestão e execução dos projetos, garantindo que cada cliente receba atenção personalizada e resultados alinhados aos objetivos do negócio. Especialista em transformar estratégias em processos escaláveis.</p>
       </div>
 
     </div>
