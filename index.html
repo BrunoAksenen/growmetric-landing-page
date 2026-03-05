@@ -411,7 +411,7 @@
       display: flex;
       gap: 0;
       width: max-content;
-      animation: marquee 28s linear infinite;
+      animation: marquee 18s linear infinite;
     }
     .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
     @keyframes marquee {
@@ -705,6 +705,11 @@
 
       /* Story */
       .story-stat-num { font-size: 28px; }
+
+      /* Clients marquee */
+      .marquee-item       { padding: 0 28px; height: 56px; }
+      .marquee-item img   { height: 22px; max-width: 90px; }
+      .shead[style*="margin-bottom: 44px"] { margin-bottom: 28px !important; }
 
       /* Form */
       form .btn-primary { font-size: 14px; }
