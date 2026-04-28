@@ -18,7 +18,24 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { nome, whatsapp, timestamp } = req.body;
+    const {
+      nome,
+      whatsapp,
+      timestamp,
+      utm_source,
+      utm_medium,
+      utm_campaign,
+      utm_content,
+      utm_term,
+      fbclid,
+      gclid,
+      msclkid,
+      source,
+      medium,
+      campaign,
+      referrer,
+      url,
+    } = req.body;
 
     // Validation
     if (!nome || typeof nome !== 'string' || nome.trim().length < 3) {
@@ -61,8 +78,25 @@ export default async function handler(req, res) {
         whatsapp: cleanWhatsapp,
         whatsappFormatted: whatsappFormatted,
         timestamp: new Date().toISOString(),
-        source: 'landing-page',
+        source: 'landing-page-broker-pro',
         ip: clientIp,
+        // UTM Parameters
+        utm_source: utm_source || null,
+        utm_medium: utm_medium || null,
+        utm_campaign: utm_campaign || null,
+        utm_content: utm_content || null,
+        utm_term: utm_term || null,
+        // Click IDs
+        fbclid: fbclid || null,
+        gclid: gclid || null,
+        msclkid: msclkid || null,
+        // Alternative parameters
+        source: source || null,
+        medium: medium || null,
+        campaign: campaign || null,
+        // Referrer & URL
+        referrer: referrer || null,
+        landing_page_url: url || null,
       }),
     });
 

@@ -1555,12 +1555,34 @@
     e.target.value = formatWhatsapp(e.target.value);
   });
 
+  // Capture URL parameters (UTMs, fbclid, gclid, etc)
+  function getUrlParameters() {
+    const params = new URLSearchParams(window.location.search);
+    const data = {
+      utm_source: params.get('utm_source') || '',
+      utm_medium: params.get('utm_medium') || '',
+      utm_campaign: params.get('utm_campaign') || '',
+      utm_content: params.get('utm_content') || '',
+      utm_term: params.get('utm_term') || '',
+      fbclid: params.get('fbclid') || '',
+      gclid: params.get('gclid') || '',
+      msclkid: params.get('msclkid') || '',
+      source: params.get('source') || '',
+      medium: params.get('medium') || '',
+      campaign: params.get('campaign') || '',
+      referrer: document.referrer || '',
+      url: window.location.href,
+    };
+    return data;
+  }
+
   // Handle form submission
   async function handleCheckoutSubmit(event) {
     event.preventDefault();
 
     const nome = document.getElementById('checkoutName').value.trim();
     const whatsapp = document.getElementById('checkoutWhatsapp').value.trim();
+    const urlParams = getUrlParameters();
 
     // Validation
     if (!nome || nome.length < 3) {
@@ -1594,6 +1616,7 @@
           nome: nome,
           whatsapp: cleanWhatsapp,
           timestamp: new Date().toISOString(),
+          ...urlParams,
         }),
       });
 
