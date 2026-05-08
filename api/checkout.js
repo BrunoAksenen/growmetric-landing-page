@@ -61,7 +61,7 @@ export default async function handler(req, res) {
       : `55${cleanWhatsapp}`;
 
     // Send to n8n webhook
-    const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL;
+    const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL_LOW_TICKET;
     if (!n8nWebhookUrl) {
       console.error('N8N_WEBHOOK_URL not configured');
       return res.status(500).json({ error: 'Configuração inválida' });
