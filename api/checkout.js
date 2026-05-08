@@ -108,7 +108,7 @@ export default async function handler(req, res) {
     // Success response with checkout URL
     return res.status(200).json({
       success: true,
-      checkoutUrl: 'https://checkout.ticto.app/OF0F298AA',
+      checkoutUrl: 'https://pay.kiwify.com.br/UeaLiNX',
       message: 'Pedido processado com sucesso',
     });
   } catch (error) {
