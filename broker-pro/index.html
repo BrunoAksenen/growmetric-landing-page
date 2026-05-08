@@ -1220,12 +1220,24 @@
   const header = document.getElementById('header');
   window.addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 40), { passive: true });
 
-  // Sticky CTA — aparece após sair do hero (mobile e desktop)
+  // Sticky CTA — aparece após sair do hero, some quando a seção de oferta está visível
   const stickyCta = document.getElementById('stickyCta');
   const heroEl = document.querySelector('.hero');
+  const offerEl = document.getElementById('comprar');
+  let heroGone = false;
+  let offerVisible = false;
+
+  function updateStickyCta() {
+    stickyCta.classList.toggle('visible', heroGone && !offerVisible);
+  }
+
   new IntersectionObserver((entries) => {
-    entries.forEach(e => stickyCta.classList.toggle('visible', !e.isIntersecting));
+    entries.forEach(e => { heroGone = !e.isIntersecting; updateStickyCta(); });
   }, { threshold: 0 }).observe(heroEl);
+
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => { offerVisible = e.isIntersecting; updateStickyCta(); });
+  }, { threshold: 0.1 }).observe(offerEl);
 
   // FAQ
   document.querySelectorAll('.faq-item').forEach(item => {
