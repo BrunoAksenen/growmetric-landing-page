@@ -105,10 +105,27 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Erro ao processar pedido' });
     }
 
+    // Build checkout URL with pre-populated fields
+    const checkoutParams = new URLSearchParams({
+      name: nome.trim(),
+      phone: `55${cleanWhatsapp}`,
+    });
+
+    // Forward UTMs to checkout URL if present
+    if (utm_source) checkoutParams.set('utm_source', utm_source);
+    if (utm_medium) checkoutParams.set('utm_medium', utm_medium);
+    if (utm_campaign) checkoutParams.set('utm_campaign', utm_campaign);
+    if (utm_content) checkoutParams.set('utm_content', utm_content);
+    if (utm_term) checkoutParams.set('utm_term', utm_term);
+    if (fbclid) checkoutParams.set('fbclid', fbclid);
+    if (gclid) checkoutParams.set('gclid', gclid);
+
+    const checkoutUrl = `https://pay.kiwify.com.br/UeaLiNX?${checkoutParams.toString()}`;
+
     // Success response with checkout URL
     return res.status(200).json({
       success: true,
-      checkoutUrl: 'https://pay.kiwify.com.br/UeaLiNX',
+      checkoutUrl,
       message: 'Pedido processado com sucesso',
     });
   } catch (error) {
