@@ -1417,7 +1417,7 @@
         throw new Error(errorData.error || 'Erro ao processar pedido');
       }
 
-      const checkoutParams = new URLSearchParams({ name: nome, phone: `55${cleanWhatsapp}` });
+      const checkoutParams = new URLSearchParams({ name: nome, phone: cleanWhatsapp });
       if (urlParams.utm_source) checkoutParams.set('utm_source', urlParams.utm_source);
       if (urlParams.utm_medium) checkoutParams.set('utm_medium', urlParams.utm_medium);
       if (urlParams.utm_campaign) checkoutParams.set('utm_campaign', urlParams.utm_campaign);
