@@ -1423,7 +1423,15 @@
       if (urlParams.utm_campaign) checkoutParams.set('utm_campaign', urlParams.utm_campaign);
       if (urlParams.fbclid) checkoutParams.set('fbclid', urlParams.fbclid);
       if (urlParams.gclid) checkoutParams.set('gclid', urlParams.gclid);
+      submitLoader.textContent = 'Redirecionando...';
       window.location.href = `https://pay.kiwify.com.br/Gi5JesI?${checkoutParams.toString()}`;
+      // Reset after 5s in case browser back-navigation returns to this page
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitText.style.display = 'inline';
+        submitLoader.style.display = 'none';
+        submitLoader.textContent = 'Processando...';
+      }, 5000);
     } catch (error) {
       console.error('Erro checkout:', error);
       alert('Erro ao processar seu pedido. Tente novamente.');
