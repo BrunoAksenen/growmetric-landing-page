@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Funil Broker Pro™</title>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-P4W5HC9F');</script>
+  <!-- End Google Tag Manager -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0B0F12;
+      --bg2:         #111820;
+      --bg3:         #161D26;
+      --card-hover:  #1A2332;
+      --steel:       #1E2A36;
+      --grey-dark:   #3A4A56;
+      --text:        #FFFFFF;
+      --text-sec:    #E8EDF2;
+      --text-muted:  #8A9BAA;
+      --accent:      #25D366;
+      --accent-dim:  rgba(37, 211, 102, 0.10);
+      --accent-glow: rgba(37, 211, 102, 0.25);
+      --red:         #EF4444;
+      --red-dim:     rgba(239, 68, 68, 0.10);
+      --border:      rgba(255,255,255,0.06);
+      --border-accent: rgba(37, 211, 102, 0.20);
+      --border-red:  rgba(239, 68, 68, 0.20);
+      --radius:      16px;
+      --radius-lg:   24px;
+      --font:        'Plus Jakarta Sans', sans-serif;
+      --font-body:   'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      padding-bottom: 96px;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font);
+      line-height: 1.15;
+      color: var(--text);
+    }
+
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
+
+    /* ═══════ HEADER — CLEAN ═══════ */
+    .header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      padding: 18px 0;
+      transition: all .35s;
+      border-bottom: 1px solid transparent;
+    }
+    .header.scrolled {
+      background: rgba(11, 15, 18, 0.94);
+      backdrop-filter: blur(24px);
+      border-bottom-color: var(--border);
+      padding: 12px 0;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .header-brand {
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--text);
+      letter-spacing: -.01em;
+      text-decoration: none;
+    }
+
+    /* ═══════ SECTIONS ═══════ */
+    section { padding: 100px 0; position: relative; }
+
+    .stag {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font);
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .14em; color: var(--accent); margin-bottom: 14px;
+    }
+    .stag-line { width: 24px; height: 2px; background: var(--accent); border-radius: 2px; }
+
+    .shead { margin-bottom: 56px; }
+    .stitle {
+      font-size: clamp(26px, 3.4vw, 44px);
+      font-weight: 800; letter-spacing: -.035em;
+      margin-bottom: 14px;
+    }
+    .stitle em { font-style: normal; color: var(--accent); }
+    .ssub {
+      font-size: 17px; color: var(--text-muted);
+      line-height: 1.8; max-width: 560px;
+    }
+
+    /* ═══════ HERO ═══════ */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 120px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero * { opacity: 1 !important; }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -55%) !important;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(37,211,102,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 860px; text-align: center; margin: 0 auto; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 16px; border-radius: 100px;
+      background: rgba(37,211,102,0.12);
+      border: 1px solid var(--border-accent);
+      font-size: 12.5px; font-weight: 600; color: var(--accent);
+      margin-bottom: 24px;
+      font-family: var(--font);
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5.5vw, 58px);
+      font-weight: 800; letter-spacing: -.04em;
+      margin-bottom: 20px; line-height: 1.1;
+    }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero h1 u { text-decoration-color: var(--accent); text-underline-offset: 6px; text-decoration-thickness: 3px; }
+    .hero-sub {
+      font-size: 16px; color: var(--text-muted);
+      line-height: 1.75; margin-bottom: 12px; max-width: 580px;
+      margin-left: auto; margin-right: auto;
+    }
+    .hero-sub strong { color: #fff; font-weight: 700; }
+
+    .hero-pills {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin: 20px 0 28px;
+    }
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 8px 14px; border-radius: 10px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      font-size: 13px; font-weight: 600; color: var(--text);
+      font-family: var(--font);
+    }
+
+    /* Hero price block */
+    .hero-price {
+      text-align: center;
+      margin-top: 24px;
+    }
+    .hero-price-label {
+      font-family: var(--font);
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .hero-price-label strong {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 32px;
+    }
+    .hero-price-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+    /* Hero mockup image */
+    .hero-image {
+      margin-top: 48px;
+      display: flex; justify-content: center;
+    }
+    .hero-image img {
+      width: 100%;
+      max-width: 620px;
+      display: block;
+      filter: drop-shadow(0 24px 60px rgba(0,0,0,0.5));
+    }
+
+    /* Seta scroll */
+    .hero-scroll-arrow {
+      position: absolute;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: var(--text-muted); font-size: 12px;
+      animation: bounceDown 2s ease-in-out infinite;
+      cursor: pointer; z-index: 5;
+      text-decoration: none;
+    }
+    .hero-scroll-arrow svg { opacity: 0.5; }
+    @keyframes bounceDown {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ═══════ PAIN CARDS ═══════ */
+    .pain-section { background: var(--bg2); border-top: 1px solid var(--border); }
+
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .pain-card {
+      padding: 32px 26px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: all .3s;
+    }
+    .pain-card:hover { border-color: var(--border-accent); transform: translateY(-3px); }
+    .pain-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: var(--accent-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+    .pain-card h3 {
+      font-size: 17px; font-weight: 700;
+      margin-bottom: 10px; color: var(--text);
+    }
+    .pain-card p {
+      font-size: 14.5px; color: var(--text-muted); line-height: 1.65;
+    }
+
+    .pain-closer {
+      text-align: center; margin-top: 48px;
+      padding: 36px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg3);
+    }
+    .pain-closer p { font-size: 17px; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+    .pain-closer strong { color: var(--text); }
+    .pain-closer em { color: var(--accent); font-style: normal; font-weight: 700; }
+
+    /* ═══════ QUALIFICATION ═══════ */
+    .qualify-section { background: var(--bg); }
+
+    .qualify-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .qualify-box {
+      background: var(--bg3);
+      border: 1px solid rgba(37, 211, 102, 0.25);
+      border-radius: var(--radius-lg);
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+    }
+    .qualify-box-header {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(37, 211, 102, 0.12);
+      border-bottom: 1px solid rgba(37, 211, 102, 0.2);
+      padding: 18px 28px;
+    }
+    .qualify-box h3 {
+      font-size: 19px; margin-bottom: 0;
+      color: var(--accent); font-weight: 900;
+      letter-spacing: -.01em;
+      text-transform: uppercase;
+    }
+    .qualify-box-body {
+      padding: 24px 28px 28px;
+    }
+    .qualify-box ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .qualify-box li {
+      font-size: 15px; padding-left: 28px; position: relative;
+      color: #FFFFFF; line-height: 1.55;
+    }
+    .qualify-box li::before {
+      content: '✓'; position: absolute; left: 0;
+      color: var(--accent); font-weight: 800; font-size: 16px;
+    }
+    .qualify-box.exclude {
+      border-color: rgba(239, 68, 68, 0.30);
+      overflow: hidden;
+    }
+    .qualify-box.exclude::before { display: none; }
+    .qualify-box.exclude .exclude-header {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--red);
+      padding: 18px 28px;
+    }
+    .qualify-box.exclude .exclude-header h3 {
+      color: #fff; font-size: 20px; font-weight: 900;
+      margin-bottom: 0;
+      letter-spacing: -.01em;
+      text-transform: uppercase;
+    }
+    .qualify-box.exclude h3 { color: var(--red); }
+    .qualify-box.exclude li { color: #fff; }
+    .qualify-box.exclude li::before { content: '✕'; color: var(--red); font-size: 17px; }
+
+    /* ═══════ MODULES ═══════ */
+    .modules-section { background: var(--bg2); border-top: 1px solid var(--border); }
+
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .module-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all .3s;
+    }
+    .module-card:hover { border-color: var(--border-accent); transform: translateY(-3px); }
+    .module-header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 24px 24px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .module-number {
+      font-family: var(--font);
+      font-size: 38px; font-weight: 800;
+      color: var(--accent); opacity: 0.2;
+      line-height: 1; flex-shrink: 0;
+    }
+    .module-label {
+      font-family: var(--font);
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .12em;
+      color: var(--accent); margin-bottom: 2px;
+    }
+    .module-title { font-size: 16px; font-weight: 800; }
+    .module-icon { margin-left: auto; font-size: 26px; opacity: 0.7; }
+    .module-lessons { padding: 18px 24px; display: flex; flex-direction: column; gap: 10px; }
+    .lesson-item { display: flex; align-items: center; gap: 10px; font-size: 13.5px; }
+    .lesson-tag {
+      font-family: var(--font);
+      font-size: 9px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      padding: 3px 8px; border-radius: 5px;
+      background: var(--accent-dim); color: var(--accent);
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .lesson-tag-pdf { background: rgba(96,165,250,0.1); color: #60A5FA; }
+    .lesson-name { color: var(--text-muted); }
+    .module-count {
+      padding: 12px 24px;
+      border-top: 1px solid var(--border);
+      font-family: var(--font);
+      font-size: 11px; font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: .08em;
+    }
+
+    .modules-bonus {
+      margin-top: 24px;
+      display: flex; justify-content: center;
+    }
+    .modules-bonus-box {
+      display: flex; align-items: center; gap: 18px;
+      padding: 22px 32px;
+      background: var(--bg3);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius);
+      max-width: 560px;
+    }
+    .modules-bonus-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+      border-radius: 12px;
+      background: var(--accent-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .bonus-label {
+      font-family: var(--font);
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em;
+      color: var(--accent); margin-bottom: 2px;
+    }
+    .modules-bonus-box h4 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .modules-bonus-box p { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ═══════ SCORECARD ═══════ */
+    .score-section { background: var(--bg); border-top: 1px solid var(--border); }
+
+    .score-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .score-checks {
+      display: flex; flex-direction: column;
+      background: var(--bg3);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .score-check {
+      display: flex; align-items: center; gap: 14px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: all .25s;
+      user-select: none;
+      position: relative;
+    }
+    .score-check:last-child { border-bottom: none; }
+    .score-check:hover { background: var(--card-hover); }
+    .score-check.active { background: var(--accent-dim); }
+
+    .score-checkbox {
+      width: 26px; height: 26px; flex-shrink: 0;
+      border-radius: 7px;
+      border: 2px solid var(--grey-dark);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .25s cubic-bezier(.34,1.56,.64,1);
+      font-size: 13px; color: transparent;
+    }
+    .score-check.active .score-checkbox {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0B0F12;
+      transform: scale(1.15);
+    }
+    .score-check-icon {
+      width: 38px; height: 38px; flex-shrink: 0;
+      border-radius: 9px;
+      background: var(--accent-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+    }
+    .score-check-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 1px; }
+    .score-check-text p { font-size: 12.5px; color: var(--text-muted); }
+
+    .score-tooltip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%; transform: translateX(-50%) translateY(8px);
+      background: var(--accent); color: #0B0F12;
+      font-family: var(--font);
+      font-size: 11.5px; font-weight: 700;
+      padding: 8px 14px; border-radius: 10px;
+      pointer-events: none; opacity: 0;
+      transition: all .35s cubic-bezier(.34,1.56,.64,1);
+      z-index: 20;
+      box-shadow: 0 8px 24px rgba(37,211,102,0.3);
+      max-width: 280px; white-space: normal;
+      text-align: center; line-height: 1.4;
+    }
+    .score-tooltip::after {
+      content: '';
+      position: absolute; top: 100%; left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--accent);
+    }
+    .score-check.active .score-tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .score-result {
+      background: var(--bg3);
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--border);
+      padding: 44px 32px;
+      text-align: center;
+      transition: border-color .5s, box-shadow .5s;
+      position: sticky; top: 80px;
+    }
+    .score-result[data-level="low"] { border-color: var(--border); }
+    .score-result[data-level="mid"] { border-color: rgba(251,191,36,0.4); box-shadow: 0 0 40px rgba(251,191,36,0.06); }
+    .score-result[data-level="high"] { border-color: rgba(248,113,113,0.5); box-shadow: 0 0 60px rgba(248,113,113,0.08); }
+    .score-result[data-level="critical"] { border-color: rgba(248,113,113,0.7); box-shadow: 0 0 80px rgba(248,113,113,0.12); animation: pulseBorder 2s ease-in-out infinite; }
+
+    @keyframes pulseBorder {
+      0%, 100% { box-shadow: 0 0 60px rgba(248,113,113,0.08); }
+      50% { box-shadow: 0 0 80px rgba(248,113,113,0.2); }
+    }
+
+    .score-result-label {
+      font-family: var(--font);
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .14em;
+      color: var(--text-muted); margin-bottom: 10px;
+    }
+    .score-number {
+      font-family: var(--font);
+      font-size: 72px; font-weight: 800;
+      color: var(--accent); line-height: 1;
+      transition: color .4s, transform .2s cubic-bezier(.34,1.56,.64,1);
+    }
+    .score-number span { font-size: 28px; color: var(--text-muted); font-weight: 600; }
+    .score-result[data-level="mid"] .score-number { color: #FBBF24; }
+    .score-result[data-level="high"] .score-number { color: #FB923C; }
+    .score-result[data-level="critical"] .score-number { color: #F87171; }
+
+    .score-risk-label {
+      font-family: var(--font);
+      font-size: 13px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .08em;
+      margin: 10px 0 4px; min-height: 20px;
+      transition: color .4s;
+    }
+    .risk-green { color: var(--accent); }
+    .risk-yellow { color: #FBBF24; }
+    .risk-orange { color: #FB923C; }
+    .risk-red { color: #F87171; }
+
+    .score-gauge {
+      width: 100%; max-width: 260px;
+      height: 16px; background: var(--steel);
+      border-radius: 100px; margin: 18px auto; overflow: hidden;
+    }
+    .score-gauge-fill {
+      height: 100%; border-radius: 100px;
+      background: linear-gradient(90deg, var(--accent), #FBBF24, #FB923C, #F87171);
+      transition: width .5s cubic-bezier(.34,1.56,.64,1);
+    }
+    .score-message {
+      margin-top: 20px; padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-accent);
+      background: var(--accent-dim);
+      transition: all .4s;
+    }
+    .score-message.msg-warning { background: rgba(251,191,36,0.06); border-color: rgba(251,191,36,0.2); }
+    .score-message.msg-danger { background: rgba(248,113,113,0.06); border-color: rgba(248,113,113,0.25); }
+    .score-message h4 { font-size: 15px; margin-bottom: 4px; }
+    .score-message p { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; }
+
+    .score-cta-wrap {
+      margin-top: 20px; opacity: 0; transform: translateY(10px);
+      transition: all .4s;
+    }
+    .score-cta-wrap.show { opacity: 1; transform: translateY(0); }
+    .score-cta-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 14px 24px; border-radius: 12px;
+      background: var(--accent); color: #0B0F12;
+      font-family: var(--font); font-weight: 800; font-size: 14px;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all .25s;
+    }
+    .score-cta-btn:hover { box-shadow: 0 8px 32px var(--accent-glow); transform: translateY(-2px); }
+
+    /* ═══════ AUTHORITY ═══════ */
+    .authority-section { background: var(--bg2); border-top: 1px solid var(--border); }
+    .authority-text h3 { font-size: 22px; margin-bottom: 14px; }
+    .authority-text p { font-size: 15px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.75; }
+    .authority-stats { display: flex; gap: 36px; margin-top: 24px; }
+    .authority-stat-num { font-family: var(--font); font-size: 32px; font-weight: 800; color: var(--accent); }
+    .authority-stat-lbl { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+    /* ═══════ OFFER — COMPACT ═══════ */
+    .offer-section { background: var(--bg); padding: 80px 0; }
+    .offer-box {
+      background: var(--bg3);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      max-width: 580px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .offer-box::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: 50%;
+      transform: translateX(-50%);
+      width: 400px; height: 220px;
+      background: radial-gradient(ellipse, var(--accent-glow), transparent 70%);
+      pointer-events: none; opacity: 0.3;
+    }
+    .offer-box h2 {
+      font-size: clamp(22px, 3vw, 30px);
+      margin-bottom: 16px; text-align: center;
+      position: relative;
+    }
+    .offer-list {
+      list-style: none;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .offer-list li {
+      padding: 8px 0;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+      color: var(--text);
+    }
+    .offer-list li:last-child { border-bottom: none; }
+    .offer-list li::before {
+      content: '✓'; color: var(--accent); font-weight: 800; font-size: 15px; flex-shrink: 0;
+    }
+
+    .offer-price {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1px;
+      margin: 16px 0 14px;
+      padding: 20px;
+      border-radius: var(--radius);
+      background: rgba(37,211,102,0.05);
+      border: 1px solid var(--border-accent);
+      position: relative;
+    }
+    .offer-price .old {
+      font-size: 18px;
+      color: #EF4444;
+      text-decoration: line-through;
+      font-weight: 700;
+      font-family: var(--font);
+    }
+    .offer-price .tag {
+      font-family: var(--font);
+      font-size: 11px; font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase; letter-spacing: .12em;
+    }
+    .offer-price .new {
+      font-family: var(--font);
+      font-size: 64px; font-weight: 800;
+      color: var(--accent); line-height: 1;
+      letter-spacing: -.03em;
+    }
+    .offer-sub {
+      font-size: 12px; color: var(--text-muted);
+      text-align: center; margin-bottom: 16px;
+    }
+    .offer-sub u { color: var(--text-sec); }
+
+    .offer-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 16px; border-radius: 14px;
+      background: var(--accent); color: #0B0F12;
+      font-family: var(--font); font-weight: 800; font-size: 15px;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all .25s;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .offer-btn:hover { box-shadow: 0 8px 40px var(--accent-glow); transform: translateY(-2px); }
+
+    .guarantee-box {
+      background: var(--accent-dim);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+      font-size: 12.5px;
+      text-align: center;
+    }
+    .guarantee-box strong { color: var(--accent); }
+    .offer-urgency {
+      font-family: var(--font);
+      font-size: 12px; color: var(--accent);
+      font-weight: 700; margin-top: 12px;
+      text-align: center;
+    }
+
+    /* ═══════ FAQ ═══════ */
+    .faq-section { background: var(--bg2); border-top: 1px solid var(--border); }
+    .faq-grid { max-width: 720px; margin: 0 auto; display: grid; gap: 10px; }
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: all .3s;
+    }
+    .faq-item:hover { border-color: var(--border-accent); }
+    .faq-question {
+      padding: 20px 24px;
+      background: var(--bg3);
+      cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      font-weight: 600; font-size: 14.5px;
+      font-family: var(--font);
+    }
+    .faq-toggle {
+      width: 26px; height: 26px;
+      border-radius: 7px;
+      background: var(--accent-dim);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-weight: 700; font-size: 15px;
+      flex-shrink: 0; transition: transform .3s;
+    }
+    .faq-item.open .faq-toggle { transform: rotate(45deg); }
+    .faq-answer {
+      padding: 0 24px;
+      max-height: 0; overflow: hidden;
+      transition: all .35s ease;
+      font-size: 14px; color: var(--text-muted); line-height: 1.75;
+    }
+    .faq-item.open .faq-answer { max-height: 200px; padding: 0 24px 20px; }
+
+    /* ═══════ STICKY CTA ═══════ */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 90;
+      padding: 12px 18px 14px;
+      background: rgba(11, 15, 18, 0.96);
+      backdrop-filter: blur(24px);
+      border-top: 1px solid var(--border-accent);
+      transform: translateY(100%);
+      transition: transform .4s cubic-bezier(.22,1,.36,1);
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.6);
+    }
+    .sticky-cta.visible { transform: translateY(0); }
+    .sticky-cta-inner {
+      max-width: 600px; margin: 0 auto;
+    }
+    @media (min-width: 641px) {
+      .sticky-cta-inner {
+        max-width: 800px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+      .sticky-cta-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .sticky-cta-text strong {
+        font-family: var(--font);
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .sticky-cta button {
+        width: auto !important;
+        min-width: 320px;
+      }
+      .sticky-cta-sub { margin-top: 0; }
+    }
+    .sticky-cta button {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 16px;
+      border-radius: 14px;
+      background: var(--accent); color: #0B0F12;
+      font-family: var(--font); font-weight: 800; font-size: 15px;
+      text-decoration: none; border: none; cursor: pointer;
+      box-shadow: 0 4px 20px var(--accent-glow);
+      transition: all .25s;
+    }
+    .sticky-cta button:hover { box-shadow: 0 8px 40px var(--accent-glow); }
+    .sticky-cta-sub {
+      text-align: center;
+      font-size: 11px; color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* ═══════ CHECKOUT MODAL ═══════ */
+    .checkout-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .checkout-modal.open {
+      display: flex;
+      animation: fadeIn .3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .checkout-modal-content {
+      background: var(--bg3);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      padding: 44px 40px;
+      max-width: 420px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    }
+    .checkout-modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 32px; height: 32px;
+      border: none;
+      background: var(--accent-dim);
+      color: var(--accent);
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all .2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .checkout-modal-close:hover { background: var(--accent); color: var(--bg); }
+    .checkout-modal-content h2 { font-size: 26px; margin-bottom: 6px; }
+    .checkout-modal-content > p { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: var(--text); margin-bottom: 7px;
+    }
+    .form-group input {
+      width: 100%; padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg2);
+      color: var(--text);
+      font-size: 15px; font-family: var(--font-body);
+      transition: all .2s;
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: var(--bg);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+    .form-group small { display: block; font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+
+    .checkout-submit-btn {
+      width: 100%; padding: 14px 24px;
+      background: var(--accent); color: var(--bg);
+      border: none; border-radius: 10px;
+      font-family: var(--font); font-weight: 700; font-size: 15px;
+      cursor: pointer; transition: all .2s; margin-bottom: 16px;
+    }
+    .checkout-submit-btn:hover { box-shadow: 0 8px 24px var(--accent-glow); transform: translateY(-2px); }
+    .checkout-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .checkout-security { text-align: center; font-size: 13px; color: var(--text-muted); }
+
+    /* ═══════ RESPONSIVE ═══════ */
+    @media (max-width: 980px) {
+      .pain-grid { grid-template-columns: 1fr 1fr; }
+      .modules-grid { grid-template-columns: 1fr; }
+      .qualify-grid { grid-template-columns: 1fr; }
+      .score-layout { grid-template-columns: 1fr; }
+      .score-result { position: static; }
+    }
+    @media (max-width: 640px) {
+      section { padding: 72px 0; }
+      .container { padding: 0 16px; }
+      .hero { padding: 90px 0 72px; min-height: auto; }
+      .hero h1 { font-size: 32px; }
+      .hero-sub { font-size: 16px; }
+      .pain-grid { grid-template-columns: 1fr; }
+      .stitle { font-size: 24px; }
+      .offer-box { padding: 28px 20px; }
+      .offer-box h2 { font-size: 22px; }
+      .offer-price .new { font-size: 48px; }
+      .score-number { font-size: 52px; }
+      .score-tooltip { font-size: 11px; max-width: 220px; }
+      .qualify-box-body { padding: 20px 20px 24px; }
+      .checkout-modal-content { padding: 36px 24px; }
+    }
+
+    .anim {
+      opacity: 0; transform: translateY(28px);
+      transition: all .6s cubic-bezier(.22,1,.36,1);
+    }
+    .anim.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P4W5HC9F" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- ═══════ HEADER ═══════ -->
+<header class="header" id="header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="#" class="header-brand">Método Funil <span style="color: var(--accent);">Broker Pro</span></a>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">🎯 Método validado em dezenas de imobiliárias</div>
+      <h1>Funil de marketing para corretores e imobiliárias que transforma verba desperdiçada em leads <u>interessados</u></h1>
+      <p class="hero-sub">Pare de pagar caro por lead frio que some no WhatsApp — aprenda a atrair, qualificar e fechar com um funil que trabalha por você <span style="color: var(--text-muted);">(funciona para autônomo, equipe ou imobiliária inteira)</span></p>
+      <div class="hero-image">
+        <img src="mokup (2).png" alt="Funil Broker Pro — Mockup">
+      </div>
+      <div class="hero-price">
+        <p class="hero-price-label">Apenas: <strong>R$ 39,00</strong></p>
+        <p class="hero-price-sub">— Acesso imediato! —</p>
+      </div>
+    </div>
+  </div>
+
+  <a href="#pain" class="hero-scroll-arrow">
+    <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+  </a>
+</section>
+
+<!-- ═══════ MODULES ═══════ -->
+<section class="modules-section" id="modules">
+  <div class="container">
+    <div class="shead anim" style="text-align: center;">
+      <div class="stag" style="justify-content: center;"><span class="stag-line"></span>Conteúdo Completo<span class="stag-line"></span></div>
+      <h2 class="stitle">O que está dentro do <em>Funil Broker Pro™</em></h2>
+    </div>
+
+    <div class="modules-grid">
+      <div class="module-card anim">
+        <div class="module-header">
+          <div class="module-number">01</div>
+          <div><div class="module-label">Módulo 01</div><h3 class="module-title">Aquisição Inteligente</h3></div>
+          <div class="module-icon">🎯</div>
+        </div>
+        <div class="module-lessons">
+          <div class="lesson-item"><span class="lesson-tag">Aula 01</span><span class="lesson-name">Como escolher o imóvel certo para anunciar</span></div>
+          <div class="lesson-item"><span class="lesson-tag">Aula 02</span><span class="lesson-name">6 Funis para imobiliária</span></div>
+          <div class="lesson-item"><span class="lesson-tag">Aula 03</span><span class="lesson-name">Segmentação</span></div>
+          <div class="lesson-item"><span class="lesson-tag">Aula 04</span><span class="lesson-name">O Investimento Ideal para sua Estrutura</span></div>
+        </div>
+        <div class="module-count">4 aulas</div>
+      </div>
+      <div class="module-card anim">
+        <div class="module-header">
+          <div class="module-number">02</div>
+          <div><div class="module-label">Módulo 02</div><h3 class="module-title">Anúncios que Trazem Cliente</h3></div>
+          <div class="module-icon">📢</div>
+        </div>
+        <div class="module-lessons">
+          <div class="lesson-item"><span class="lesson-tag">Aula 01</span><span class="lesson-name">Princípios de um bom criativo</span></div>
+          <div class="lesson-item"><span class="lesson-tag">Aula 02</span><span class="lesson-name">Hooks + Ângulo</span></div>
+        </div>
+        <div class="module-count">2 aulas</div>
+      </div>
+      <div class="module-card anim">
+        <div class="module-header">
+          <div class="module-number">03</div>
+          <div><div class="module-label">Módulo 03</div><h3 class="module-title">Conversão</h3></div>
+          <div class="module-icon">💬</div>
+        </div>
+        <div class="module-lessons">
+          <div class="lesson-item"><span class="lesson-tag lesson-tag-pdf">PDF 01</span><span class="lesson-name">Primeira Mensagem + Qualificação</span></div>
+          <div class="lesson-item"><span class="lesson-tag lesson-tag-pdf">PDF 02</span><span class="lesson-name">Direcionamento + Follow-up</span></div>
+          <div class="lesson-item"><span class="lesson-tag lesson-tag-pdf">PDF 03</span><span class="lesson-name">Fluxo de Cadência</span></div>
+        </div>
+        <div class="module-count">3 materiais</div>
+      </div>
+    </div>
+
+    <div class="modules-bonus anim">
+      <div class="modules-bonus-box">
+        <div class="modules-bonus-icon">🎁</div>
+        <div>
+          <div class="bonus-label">Bônus Exclusivo</div>
+          <h4>Painel de Performance Imobiliária</h4>
+          <p>Acompanhe suas métricas em um só lugar e saiba onde ajustar.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;" class="anim">
+      <a href="#comprar" class="offer-btn" style="max-width: 480px; margin: 0 auto;">Quero parar de perder leads agora →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PAIN CARDS ═══════ -->
+<section class="pain-section" id="pain">
+  <div class="container">
+    <div class="shead anim">
+      <div class="stag"><span class="stag-line"></span>O Problema</div>
+      <h2 class="stitle">Se a sua imobiliária vive um desses cenários,<br>o problema <em>não é falta de lead.</em></h2>
+    </div>
+
+    <div class="pain-grid">
+      <div class="pain-card anim">
+        <div class="pain-icon">❄️</div>
+        <h3>Seus leads chegam frios e seus corretores desanimam</h3>
+        <p>Muito curioso, pouca intenção de compra. Seu time atende volume… mas fecha pouco.</p>
+      </div>
+      <div class="pain-card anim">
+        <div class="pain-icon">🔄</div>
+        <h3>Você já trocou de agência e nada mudou</h3>
+        <p>Nova promessa, novo gestor, nova estratégia. Mas a taxa de conversão continua travada.</p>
+      </div>
+      <div class="pain-card anim">
+        <div class="pain-icon">📉</div>
+        <h3>Você sabe o CPL… mas não o lucro</h3>
+        <p>Gerar lead não significa vender. Sem CAC real, você não sabe se está crescendo ou queimando caixa.</p>
+      </div>
+    </div>
+
+    <div class="pain-closer anim">
+      <p>O problema não está no canal. Está na <strong>ausência de um funil estruturado.</strong><br>E é exatamente isso que o <em>Método Funil Broker Pro™</em> resolve.</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;" class="anim">
+      <a href="#comprar" class="offer-btn" style="max-width: 480px; margin: 0 auto;">Quero parar de perder leads agora →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ QUALIFICATION ═══════ -->
+<section class="qualify-section">
+  <div class="container">
+    <div class="qualify-grid">
+      <div class="qualify-box anim">
+        <div class="qualify-box-header">
+          <h3>✓ É PRA VOCÊ se...</h3>
+        </div>
+        <div class="qualify-box-body">
+          <ul>
+            <li>Você tem uma imobiliária ou incorporadora e já investe em tráfego pago</li>
+            <li>Você quer entender por que os leads não convertem antes de contratar mais um serviço</li>
+            <li>Você é gestor ou sócio e quer tomar decisões de marketing com base em dados</li>
+            <li>Você quer estruturar o funil internamente ou avaliar se faz sentido terceirizar</li>
+          </ul>
+        </div>
+      </div>
+      <div class="qualify-box exclude anim">
+        <div class="exclude-header">
+          <h3>✕ NÃO É PRA VOCÊ se...</h3>
+        </div>
+        <div class="qualify-box-body">
+          <ul>
+            <li>Você ainda não tem operação comercial ativa</li>
+            <li>Você está procurando um curso completo de tráfego do zero</li>
+            <li>Você quer investir R$ 10 por dia e acha que vai vender milhares</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ SCORECARD ═══════ -->
+<section class="score-section" id="scorecard">
+  <div class="container">
+    <div class="shead anim" style="text-align: center;">
+      <div class="stag" style="justify-content: center;"><span class="stag-line"></span>Autoavaliação Rápida<span class="stag-line"></span></div>
+      <h2 class="stitle">Sua imobiliária está pronta <em>para escalar?</em></h2>
+      <p class="ssub" style="margin: 0 auto;">Marque quantos pontos abaixo são <strong style="color:var(--text)">verdade</strong> hoje na sua operação.</p>
+    </div>
+
+    <div class="score-layout anim">
+      <div class="score-checks">
+        <div class="score-check" data-tooltip="Sem campanha ativa, não existe funil para otimizar.">
+          <div class="score-checkbox">✓</div>
+          <div class="score-check-icon">📢</div>
+          <div class="score-check-text"><h4>Já invisto em tráfego</h4><p>Tenho campanhas ativas todos os meses.</p></div>
+          <div class="score-tooltip"></div>
+        </div>
+        <div class="score-check" data-tooltip="Isso significa que seu funil está vazando leads todos os dias.">
+          <div class="score-checkbox">✓</div>
+          <div class="score-check-icon">👥</div>
+          <div class="score-check-text"><h4>Leads não convertem</h4><p>Chegam leads, mas poucos viram visitas ou propostas.</p></div>
+          <div class="score-tooltip"></div>
+        </div>
+        <div class="score-check" data-tooltip="Isso é o que impede 80% das imobiliárias de escalarem.">
+          <div class="score-checkbox">✓</div>
+          <div class="score-check-icon">💰</div>
+          <div class="score-check-text"><h4>Não sei meu CAC real</h4><p>Sei o CPL, mas não sei quanto custa uma venda de verdade.</p></div>
+          <div class="score-tooltip"></div>
+        </div>
+        <div class="score-check" data-tooltip="O problema quase nunca é o corretor. É o lead que chega errado.">
+          <div class="score-checkbox">✓</div>
+          <div class="score-check-icon">💬</div>
+          <div class="score-check-text"><h4>Corretores reclamam</h4><p>Dizem que o lead é ruim ou não tem intenção real de compra.</p></div>
+          <div class="score-tooltip"></div>
+        </div>
+        <div class="score-check" data-tooltip="Previsibilidade só existe com funil estruturado. Sem ele, é sorte.">
+          <div class="score-checkbox">✓</div>
+          <div class="score-check-icon">📈</div>
+          <div class="score-check-text"><h4>Quero previsibilidade</h4><p>Quero saber quanto investir para gerar vendas todos os meses.</p></div>
+          <div class="score-tooltip"></div>
+        </div>
+      </div>
+
+      <div class="score-result" id="scoreResult" data-level="low">
+        <div class="score-result-label">Seu Diagnóstico</div>
+        <div class="score-number"><span id="scoreNum">0</span><span>/5</span></div>
+        <div class="score-risk-label" id="scoreRisk">&nbsp;</div>
+        <div class="score-gauge"><div class="score-gauge-fill" id="scoreFill" style="width: 0%"></div></div>
+        <div class="score-message" id="scoreMsg">
+          <h4 id="scoreMsgTitle">Clique nos itens acima</h4>
+          <p id="scoreMsgText">Marque os pontos que são verdade na sua operação para receber seu diagnóstico.</p>
+        </div>
+        <div class="score-cta-wrap" id="scoreCta">
+          <a href="#comprar" class="score-cta-btn">Quero resolver isso agora →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="text-align: center; padding: 48px 0; background: var(--bg);" class="anim">
+  <p style="font-size: 17px; color: var(--text-muted); margin-bottom: 20px; font-family: var(--font);">
+    <strong style="color: var(--text);">Você não precisa de mais tráfego.</strong><br>
+    <span style="color: var(--accent); font-weight: 700;">Você precisa de um funil que converte.</span>
+  </p>
+  <a href="#comprar" class="offer-btn" style="max-width: 480px; margin: 0 auto;">Quero aplicar o Funil Broker Pro™ →</a>
+</div>
+
+<!-- ═══════ AUTHORITY ═══════ -->
+<section class="authority-section">
+  <div class="container">
+    <div class="shead anim">
+      <div class="stag"><span class="stag-line"></span>Quem Está Por Trás</div>
+      <h2 class="stitle">Método Funil Broker Pro™ — <em>Growmetric</em></h2>
+    </div>
+    <div class="anim">
+      <div class="authority-text">
+        <h3>Consultoria especializada em performance para imóveis</h3>
+        <p>A Growmetric não trabalha com qualquer segmento — entendemos que imóvel tem ciclo longo, ticket alto e um comprador que decide diferente.</p>
+        <p>O Método Funil Broker Pro™ foi construído a partir de dezenas de operações imobiliárias onde identificamos o mesmo padrão: tráfego rodando, lead chegando, funil sem estrutura.</p>
+        <div class="authority-stats">
+          <div><div class="authority-stat-num">+1000</div><div class="authority-stat-lbl">Leads gerados todos os meses</div></div>
+          <div><div class="authority-stat-num">R$10M+</div><div class="authority-stat-lbl">Em verba gerenciada</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ OFFER — COMPACT ═══════ -->
+<section class="offer-section" id="comprar">
+  <div class="container">
+    <div class="offer-box anim">
+      <h2>O que você vai adquirir</h2>
+      <ul class="offer-list">
+        <li>Módulo 01 — Aquisição Inteligente (4 aulas)</li>
+        <li>Módulo 02 — Anúncios que Trazem Cliente (2 aulas)</li>
+        <li>Módulo 03 — Conversão (3 PDFs práticos)</li>
+        <li>Bônus: Painel de Performance Imobiliária</li>
+        <li>Acesso vitalício</li>
+      </ul>
+      <div class="offer-price">
+        <span class="old">R$ 197,00</span>
+        <span class="tag">Apenas hoje</span>
+        <span class="new">R$ 39,00</span>
+      </div>
+      <p class="offer-sub">É menos de <u>R$ 1,50 por dia.</u> E pode transformar seu negócio.</p>
+      <button class="offer-btn" onclick="openCheckoutModal()">Quero aproveitar agora →</button>
+      <div class="guarantee-box">
+        <strong>✓ Garantia incondicional de 7 dias</strong><br>
+        Se não valeu, devolvemos 100% do valor. Sem burocracia.
+      </div>
+      <div class="offer-urgency">⏰ Acesso imediato após a compra</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FAQ ═══════ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="shead anim" style="text-align: center;">
+      <div class="stag" style="justify-content: center;"><span class="stag-line"></span>Dúvidas<span class="stag-line"></span></div>
+      <h2 class="stitle">Perguntas Frequentes</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item anim"><div class="faq-question"><span>Preciso ter tráfego rodando para aproveitar?</span><span class="faq-toggle">+</span></div><div class="faq-answer">Não é obrigatório, mas você vai aproveitar muito mais se já tiver alguma experiência com campanhas.</div></div>
+      <div class="faq-item anim"><div class="faq-question"><span>Funciona para imobiliária pequena?</span><span class="faq-toggle">+</span></div><div class="faq-answer">Sim. Foi desenhado para qualquer tamanho de operação. Os princípios são os mesmos — o que muda é a escala.</div></div>
+      <div class="faq-item anim"><div class="faq-question"><span>Em quanto tempo recebo o acesso?</span><span class="faq-toggle">+</span></div><div class="faq-answer">Imediatamente após a confirmação do pagamento. Link de acesso por e-mail em menos de 5 minutos.</div></div>
+      <div class="faq-item anim"><div class="faq-question"><span>E se não funcionar para o meu mercado?</span><span class="faq-toggle">+</span></div><div class="faq-answer">Você tem 7 dias de garantia incondicional. Devolvemos o valor integralmente.</div></div>
+      <div class="faq-item anim"><div class="faq-question"><span>Tem algum upsell depois?</span><span class="faq-toggle">+</span></div><div class="faq-answer">Oferecemos uma call de diagnóstico gratuita para quem quiser implementar com acompanhamento. Mas não é obrigatório.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ BOTTOM BAR ═══════ -->
+<div style="padding: 40px 0; background: var(--bg3); border-top: 1px solid var(--border); text-align: center;">
+  <div class="container">
+    <p style="font-size: 16px; color: var(--text-muted); margin-bottom: 20px;">
+      <strong style="color: var(--text);">Você não precisa de mais tráfego.</strong>
+      <em style="color: var(--accent); font-style: normal; font-weight: 700;">Você precisa de um funil que converte.</em>
+    </p>
+    <a href="#comprar" class="offer-btn" style="max-width: 480px; margin: 0 auto;">Quero parar de perder leads agora →</a>
+    <p style="font-size: 12px; color: var(--text-muted); margin-top: 16px;">Sistema validado em dezenas de imobiliárias e incorporadoras. Resultados reais. Não é promessa.</p>
+  </div>
+</div>
+
+<!-- ═══════ STICKY CTA ═══════ -->
+<div class="sticky-cta" id="stickyCta">
+  <div class="sticky-cta-inner">
+    <div class="sticky-cta-text">
+      <strong>Você não precisa de mais tráfego.</strong>
+      <div class="sticky-cta-sub">Sistema validado em dezenas de imobiliárias</div>
+    </div>
+    <a href="#comprar" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:16px;border-radius:14px;background:var(--accent);color:#0B0F12;font-family:var(--font);font-weight:800;font-size:15px;text-decoration:none;box-shadow:0 4px 20px var(--accent-glow);transition:all .25s;">Quero parar de perder leads →</a>
+  </div>
+</div>
+
+<!-- ═══════ CHECKOUT MODAL ═══════ -->
+<div id="checkoutModal" class="checkout-modal">
+  <div class="checkout-modal-content">
+    <button class="checkout-modal-close" onclick="closeCheckoutModal()">×</button>
+    <h2>Confirme seus dados</h2>
+    <p>Preencha abaixo para prosseguir ao checkout</p>
+
+    <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+      <div class="form-group">
+        <label for="checkoutName">Seu nome completo</label>
+        <input type="text" id="checkoutName" name="nome" placeholder="João Silva" required minlength="3">
+      </div>
+      <div class="form-group">
+        <label for="checkoutWhatsapp">WhatsApp</label>
+        <input type="tel" id="checkoutWhatsapp" name="whatsapp" placeholder="(11) 99999-9999" required minlength="10">
+        <small>Formato: (XX) 9XXXX-XXXX</small>
+      </div>
+      <button type="submit" class="checkout-submit-btn">
+        <span id="submitText">Ir para checkout →</span>
+        <span id="submitLoader" style="display:none;">Processando...</span>
+      </button>
+    </form>
+
+    <p class="checkout-security">🔒 Seus dados são enviados de forma segura e criptografada</p>
+  </div>
+</div>
+
+<script>
+  // Header scroll
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 40), { passive: true });
+
+  // Sticky CTA — aparece após sair do hero, some quando a seção de oferta está visível
+  const stickyCta = document.getElementById('stickyCta');
+  const heroEl = document.querySelector('.hero');
+  const offerEl = document.getElementById('comprar');
+  let heroGone = false;
+  let offerVisible = false;
+
+  function updateStickyCta() {
+    stickyCta.classList.toggle('visible', heroGone && !offerVisible);
+  }
+
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => { heroGone = !e.isIntersecting; updateStickyCta(); });
+  }, { threshold: 0 }).observe(heroEl);
+
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => { offerVisible = e.isIntersecting; updateStickyCta(); });
+  }, { threshold: 0.1 }).observe(offerEl);
+
+  // FAQ
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-question').addEventListener('click', () => item.classList.toggle('open'));
+  });
+
+  // ─── SCORECARD ───
+  const checks = document.querySelectorAll('.score-check');
+  const scoreNum = document.getElementById('scoreNum');
+  const scoreFill = document.getElementById('scoreFill');
+  const scoreMsgTitle = document.getElementById('scoreMsgTitle');
+  const scoreMsgText = document.getElementById('scoreMsgText');
+  const scoreResult = document.getElementById('scoreResult');
+  const scoreRisk = document.getElementById('scoreRisk');
+  const scoreMsg = document.getElementById('scoreMsg');
+  const scoreCta = document.getElementById('scoreCta');
+
+  checks.forEach(c => {
+    const t = c.querySelector('.score-tooltip');
+    if (t) t.textContent = c.dataset.tooltip;
+  });
+
+  const diagnostics = [
+    { risk: '', riskClass: '', level: 'low', msgClass: '', title: 'Clique nos itens acima', text: 'Marque os pontos que são verdade na sua operação para receber seu diagnóstico.' },
+    { risk: 'Sinal de alerta', riskClass: 'risk-green', level: 'low', msgClass: '', title: 'Você já sente o problema…', text: 'Mesmo 1 ponto já indica que seu funil precisa de atenção antes de escalar.' },
+    { risk: 'Atenção necessária', riskClass: 'risk-yellow', level: 'mid', msgClass: 'msg-warning', title: 'Sinais claros de vazamento.', text: 'Seu tráfego provavelmente não está se pagando como deveria.' },
+    { risk: '⚠️ Operação em Risco', riskClass: 'risk-orange', level: 'mid', msgClass: 'msg-warning', title: 'Seu dinheiro está escorrendo pelo ralo.', text: 'Se marcou 3 pontos ou mais, esse método foi feito pra você.' },
+    { risk: '🔴 Cegueira Operacional', riskClass: 'risk-red', level: 'high', msgClass: 'msg-danger', title: 'Você vende, mas não sabe como — nem quanto custa.', text: 'Sua operação está crescendo no escuro. Cada real investido é um tiro no escuro.' },
+    { risk: '🚨 Caos Escalável', riskClass: 'risk-red', level: 'critical', msgClass: 'msg-danger', title: 'Você tem demanda, mas a estrutura vai colapsar.', text: 'Cada dia sem um funil estruturado é dinheiro perdido.' },
+  ];
+
+  checks.forEach(check => {
+    let hideTimer;
+    check.addEventListener('click', () => {
+      const wasActive = check.classList.contains('active');
+      check.classList.toggle('active');
+      if (!wasActive && navigator.vibrate) navigator.vibrate(30);
+
+      const tooltip = check.querySelector('.score-tooltip');
+      if (tooltip && !wasActive) {
+        tooltip.style.opacity = ''; tooltip.style.transition = '';
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => { tooltip.style.transition = 'opacity .3s'; tooltip.style.opacity = '0'; }, 2500);
+      } else if (tooltip) { clearTimeout(hideTimer); tooltip.style.opacity = ''; }
+
+      const count = document.querySelectorAll('.score-check.active').length;
+      const d = diagnostics[count];
+      scoreNum.textContent = count;
+      scoreNum.style.transform = 'scale(1.25)';
+      setTimeout(() => scoreNum.style.transform = '', 200);
+      scoreFill.style.width = (count / 5 * 100) + '%';
+      scoreRisk.textContent = d.risk;
+      scoreRisk.className = 'score-risk-label ' + d.riskClass;
+      scoreResult.dataset.level = d.level;
+      scoreMsg.className = 'score-message ' + d.msgClass;
+      scoreMsgTitle.innerHTML = d.title;
+      scoreMsgText.textContent = d.text;
+      scoreCta.classList.toggle('show', count >= 3);
+      if (count === 5) setTimeout(() => scoreResult.scrollIntoView({ behavior: 'smooth', block: 'center' }), 400);
+    });
+  });
+
+  // Scroll animations
+  document.querySelectorAll('.anim').forEach(el => {
+    new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 }).observe(el);
+  });
+
+  // ─── CHECKOUT MODAL ───
+  function openCheckoutModal() {
+    document.getElementById('checkoutModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCheckoutModal() {
+    document.getElementById('checkoutModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCheckoutModal(); });
+  document.getElementById('checkoutModal').addEventListener('click', (e) => {
+    if (e.target.id === 'checkoutModal') closeCheckoutModal();
+  });
+
+  // WhatsApp formatting
+  function formatWhatsapp(value) {
+    let cleaned = value.replace(/\D/g, '');
+    if (cleaned.length > 11) cleaned = cleaned.slice(0, 11);
+    if (cleaned.length === 11) return `(${cleaned.slice(0,2)}) ${cleaned.slice(2,7)}-${cleaned.slice(7)}`;
+    if (cleaned.length === 10) return `(${cleaned.slice(0,2)}) ${cleaned.slice(2,6)}-${cleaned.slice(6)}`;
+    return value;
+  }
+  document.getElementById('checkoutWhatsapp').addEventListener('input', (e) => {
+    e.target.value = formatWhatsapp(e.target.value);
+  });
+
+  // Capture UTMs, fbclid, gclid etc
+  function getUrlParameters() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      utm_source:   params.get('utm_source')   || '',
+      utm_medium:   params.get('utm_medium')   || '',
+      utm_campaign: params.get('utm_campaign') || '',
+      utm_content:  params.get('utm_content')  || '',
+      utm_term:     params.get('utm_term')     || '',
+      fbclid:       params.get('fbclid')       || '',
+      gclid:        params.get('gclid')        || '',
+      msclkid:      params.get('msclkid')      || '',
+      source:       params.get('source')       || '',
+      medium:       params.get('medium')       || '',
+      campaign:     params.get('campaign')     || '',
+      referrer:     document.referrer          || '',
+      url:          window.location.href,
+    };
+  }
+
+  // Form submit → /api/checkout (serverless) → redirect
+  async function handleCheckoutSubmit(event) {
+    event.preventDefault();
+
+    const nome = document.getElementById('checkoutName').value.trim();
+    const whatsapp = document.getElementById('checkoutWhatsapp').value.trim();
+    const urlParams = getUrlParameters();
+
+    if (!nome || nome.length < 3) { alert('Por favor, digite seu nome completo'); return; }
+    const cleanWhatsapp = whatsapp.replace(/\D/g, '');
+    if (cleanWhatsapp.length < 10) { alert('Por favor, digite um WhatsApp válido'); return; }
+
+    const submitBtn = event.target.querySelector('.checkout-submit-btn');
+    const submitText = document.getElementById('submitText');
+    const submitLoader = document.getElementById('submitLoader');
+
+    submitBtn.disabled = true;
+    submitText.style.display = 'none';
+    submitLoader.style.display = 'inline';
+
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome,
+          whatsapp: cleanWhatsapp,
+          timestamp: new Date().toISOString(),
+          ...urlParams,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erro ao processar pedido');
+      }
+
+      const checkoutParams = new URLSearchParams({ name: nome, phone: `55${cleanWhatsapp}` });
+      if (urlParams.utm_source) checkoutParams.set('utm_source', urlParams.utm_source);
+      if (urlParams.utm_medium) checkoutParams.set('utm_medium', urlParams.utm_medium);
+      if (urlParams.utm_campaign) checkoutParams.set('utm_campaign', urlParams.utm_campaign);
+      if (urlParams.fbclid) checkoutParams.set('fbclid', urlParams.fbclid);
+      if (urlParams.gclid) checkoutParams.set('gclid', urlParams.gclid);
+      window.location.href = `https://pay.kiwify.com.br/Gi5JesI?${checkoutParams.toString()}`;
+    } catch (error) {
+      console.error('Erro checkout:', error);
+      alert('Erro ao processar seu pedido. Tente novamente.');
+      submitBtn.disabled = false;
+      submitText.style.display = 'inline';
+      submitLoader.style.display = 'none';
+    }
+  }
+</script>
+
+</body>
+</html>
