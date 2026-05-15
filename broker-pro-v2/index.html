@@ -1418,11 +1418,13 @@
       }
 
       const checkoutParams = new URLSearchParams({ name: nome, phone: cleanWhatsapp });
-      if (urlParams.utm_source) checkoutParams.set('utm_source', urlParams.utm_source);
-      if (urlParams.utm_medium) checkoutParams.set('utm_medium', urlParams.utm_medium);
+      if (urlParams.utm_source)   checkoutParams.set('utm_source',   urlParams.utm_source);
+      if (urlParams.utm_medium)   checkoutParams.set('utm_medium',   urlParams.utm_medium);
       if (urlParams.utm_campaign) checkoutParams.set('utm_campaign', urlParams.utm_campaign);
-      if (urlParams.fbclid) checkoutParams.set('fbclid', urlParams.fbclid);
-      if (urlParams.gclid) checkoutParams.set('gclid', urlParams.gclid);
+      if (urlParams.utm_content)  checkoutParams.set('utm_content',  urlParams.utm_content);
+      if (urlParams.utm_term)     checkoutParams.set('utm_term',     urlParams.utm_term);
+      if (urlParams.fbclid)       checkoutParams.set('fbclid',       urlParams.fbclid);
+      if (urlParams.gclid)        checkoutParams.set('gclid',        urlParams.gclid);
       submitLoader.textContent = 'Redirecionando...';
       window.location.href = `https://pay.kiwify.com.br/Gi5JesI?${checkoutParams.toString()}`;
       // Reset after 5s in case browser back-navigation returns to this page
